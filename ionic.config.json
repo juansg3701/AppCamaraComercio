@@ -1,0 +1,7 @@
+{
+  "name": "AppCamaraComercio",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
