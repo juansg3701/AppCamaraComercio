@@ -1,0 +1,22 @@
+.prueba{
+    background-color: red;
+}
+ion-toolbar {
+    --background: #DF0009;
+    height: 50px;
+    color: white;
+
+}
+.ion-segment{
+    --background-checked: var(--ion-color-danger);
+    --color-checked: var(--ion-color-danger-contrast);
+}
+.color{
+    color: white;
+}
+.titulos{
+    color: #DF0009;
+    font-style: oblique;
+    font-size: 23px;
+    font-weight: bold;
+}
