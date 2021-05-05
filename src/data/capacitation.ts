@@ -9,16 +9,13 @@ export interface capacitation {
 
 export interface CapacitationContextModel {
     capacitation: capacitation[];
-    consumirCapa: ()=>void;
-    getImage: (number:string)=>void;
+
     //obtenerDatos: ()=>void;
 }
 
 const CapacitationContext = React.createContext<CapacitationContextModel>({
     capacitation: [],
-    consumirCapa: ()=>{},
-    getImage: ()=>{}
-    //obtenerDatos: ()=>{}
+
 });
 
 export default CapacitationContext;

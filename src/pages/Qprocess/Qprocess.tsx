@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {
     IonCard,
     IonCol, IonContent,
@@ -15,10 +15,32 @@ import {
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
+import ConfecamarasContext, {typesQuerys} from "../../data/confecamaras";
+import {useHistory} from "react-router-dom";
 
 const Qprocess: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
-    const openCompleteModal = () => {
+    const confecamaras = useContext(ConfecamarasContext);
+    const history = useHistory();
+    const tipo_search = useRef<HTMLIonSegmentElement>(null);
+    const valor_search = useRef<HTMLIonInputElement>(null);
+
+    const consultarTramite= async ()=>{
+        const tipo_send= tipo_search.current?.value as typesQuerys;
+        const valor_send= valor_search.current?.value as string;
+        await confecamaras.consultarTramite(tipo_send,valor_send);
+        switch (tipo_send) {
+            case "recibo":
+                history.replace('/resultsreceipt')
+                break;
+            case "radicado":
+                history.replace('/resultsradicate')
+                break;
+
+        }
+    }
+
+        const openCompleteModal = () => {
         let message="Información sobre consulta de trámites";
         setStateModal(message);
     };
@@ -65,7 +87,7 @@ const Qprocess: React.FC = ()=>{
                         </IonRow>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonSegment color="danger">
+                                <IonSegment color="danger" ref={tipo_search}>
                                     <IonSegmentButton value='radicado'>
                                         <IonLabel>Radicado</IonLabel>
                                     </IonSegmentButton>
@@ -82,7 +104,7 @@ const Qprocess: React.FC = ()=>{
                                     <IonLabel position='floating'>
                                         Ingrese el número...
                                     </IonLabel>
-                                    <IonInput  type='text'></IonInput>
+                                    <IonInput  type='text' ref={valor_search}></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
@@ -91,7 +113,7 @@ const Qprocess: React.FC = ()=>{
                         </IonCol>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonButton expand='block' fill='outline'>
+                                <IonButton expand='block' fill='outline' onClick={consultarTramite}>
                                     Consultar
                                 </IonButton>
                             </IonCol>

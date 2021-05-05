@@ -32,23 +32,19 @@ import Renovate from "./pages/Renovate/Renovate";
 import Names from "./pages/Names/Names";
 import Qprocess from "./pages/Qprocess/Qprocess";
 import ConfecamarasContextProvider from "./data/ConfecamarasContextProvider";
+import QueryNames from "./pages/Names/QueryNames";
+import React from "react";
+import ResultsReceipt from "./pages/Qprocess/ResultsReceipt";
+import ResultsRadicate from "./pages/Qprocess/ResultsRadicate";
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
 
       <IonRouterOutlet>
-        <IonContent>
-          <IonRouterLink href="/infomacion">
-            <IonIcon icon={documentText}/>
-            <br></br>
-            Información
-          </IonRouterLink>
-        </IonContent>
         <CapatitationContextProvider>
         <Route exact path="/home">
           <Home />
         </Route>
-
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
@@ -72,6 +68,15 @@ const App: React.FC = () => (
           <Route exact path='/qprocess'>
             <Qprocess/>
           </Route>
+            <Route exact path='/querynames'>
+              <QueryNames/>
+            </Route>
+            <Route exact path='/resultsreceipt'>
+              <ResultsReceipt/>
+            </Route>
+            <Route exact path='/resultsradicate'>
+              <ResultsRadicate/>
+            </Route>
           </ConfecamarasContextProvider>
         </CapatitationContextProvider>
       </IonRouterOutlet>

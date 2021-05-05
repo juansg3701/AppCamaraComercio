@@ -1,28 +1,48 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {
     IonCard,
-    IonCol, IonContent,
+    IonCol,
+    IonContent,
     IonGrid,
     IonHeader,
     IonIcon,
     IonImg,
-    IonPage, IonRouterLink,
+    IonPage,
+    IonRouterLink,
     IonRow,
     IonTitle,
     IonToolbar,
-    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal
+    IonLabel,
+    IonSegment,
+    IonSegmentButton,
+    IonInput,
+    IonItem,
+    IonButton,
+    IonFab,
+    IonFabButton,
+    IonModal,
+    IonRouterOutlet
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
 import ConfecamarasContext from "../../data/confecamaras";
+import {IonReactRouter} from "@ionic/react-router";
+import Qprocess from "../Qprocess/Qprocess";
+import {Route, useHistory} from "react-router-dom";
+import QueryNames from "./QueryNames";
+import {nombres} from "../../data/nombres";
 
 const Names: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
     const confecamaras = useContext(ConfecamarasContext);
-    useEffect(()=>{
-        confecamaras.solicitarToken()
-    },[]);
+    const history = useHistory();
+    const name_search = useRef<HTMLIonInputElement>(null);
+    const consultaNombres= async ()=>{
+        const name_send = name_search.current?.value as string;
+       await confecamaras.consultarNombre(name_send);
+        history.replace('/querynames');
+    }
     const openCompleteModal = () => {
         let message="Información sobre consulta de nombres";
         setStateModal(message);
@@ -35,7 +55,6 @@ const Names: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -77,7 +96,7 @@ const Names: React.FC = ()=>{
                                     <IonLabel position='floating'>
                                         Ingrese el nombre...
                                     </IonLabel>
-                                    <IonInput  type='text'></IonInput>
+                                    <IonInput ref={name_search} type='text'></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
@@ -86,7 +105,7 @@ const Names: React.FC = ()=>{
                         </IonCol>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonButton expand='block' fill='outline'>
+                                <IonButton expand='block' fill='outline' onClick={()=>{consultaNombres()}}>
                                     Consultar
                                 </IonButton>
                             </IonCol>

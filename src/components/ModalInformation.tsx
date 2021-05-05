@@ -20,7 +20,6 @@ interface ModalInformationyProps {
 
 const ModalInformation: React.FC<ModalInformationyProps> = (props) => {
 
-
     return (
         <IonContent>
             <IonGrid className='ion-no-padding'>
