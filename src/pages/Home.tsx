@@ -34,8 +34,8 @@ return (
 <IonContent fullscreen>
 <IonGrid>
   <IonRow className="ion-align-items-center">
-      <IonCol className="ion-text-center">
-          <IonCard >
+      <IonCol size="12">
+          <IonCard>
               <IonImg src="assets/img/logo.jpg"/>
           </IonCard>
       </IonCol>
@@ -50,39 +50,30 @@ return (
     <IonCol>
         <IonRow></IonRow>
     </IonCol>
-    {/*
-    <IonRow>
-        <IonCol>
-            <IonButton onClick={()=>{prueba()}}>boton de prueba</IonButton>
-        </IonCol>
-    </IonRow>
-    */}
 
   <IonRow className="ion-align-items-center">
-      <IonCol className="ion-text-center" size="6" >
+      <IonCol className="ion-text-center" size="4" >
           <IonRouterLink href="/information">
               <img src="assets/img/info.png" height="50" width="50"/>
               <br></br>
               Información
           </IonRouterLink>
       </IonCol>
-      <IonCol className="ion-text-center" size="6">
+      <IonCol className="ion-text-center" size="4">
           <IonRouterLink href="/process">
               <img src="assets/img/tramites.png" height="50" width="50"/>
               <br></br>
               Trámites registrales
           </IonRouterLink>
       </IonCol>
-
-
-      <IonCol className="ion-text-center" size="12">
-              <iframe width="120" height="60" src="https://cloudoledgo.com:2000/AudioPlayer/ccs?" className="border:5"></iframe>
+      <IonCol className="ion-text-center" size="4">
+              <iframe width="85" height="60" src="https://cloudoledgo.com:2000/AudioPlayer/ccs?"
+              className="emisora"></iframe>
               <br></br>
           <IonRouterLink>
               Emisora virtual
           </IonRouterLink>
       </IonCol>
-
   </IonRow>
   <IonCol>
       <IonRow>
@@ -90,6 +81,11 @@ return (
   </IonCol>
   <IonRow>
       <IonCol size="12">
+      </IonCol>
+      <IonCol size="12" className="ion-text-center">
+          <IonLabel className="titulos">
+              Noticias - Capacitaciones
+          </IonLabel>
       </IonCol>
       {/*  -   {posts.length} -*/}
 

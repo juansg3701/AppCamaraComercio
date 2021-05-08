@@ -25,6 +25,9 @@ ion-toolbar {
     font-size: 23px;
     font-weight: bold;
 }
+.emisora{
+    border: 1px solid black;
+}
 
 .titulos-busquedas{
     color: #3a7be0;
