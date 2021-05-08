@@ -15,8 +15,9 @@ import {
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
-import ConfecamarasContext, {typesQuerys} from "../../data/confecamaras";
+import ConfecamarasContext, {typesProceedings, typesQuerys} from "../../data/confecamaras";
 import itemContext from "../../data/capacitation";
+import {useHistory} from "react-router";
 
 const Certificate: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
@@ -24,12 +25,14 @@ const Certificate: React.FC = ()=>{
     const tipo_search= useRef<HTMLIonSegmentElement>(null);
     const valor_search= useRef<HTMLIonInputElement>(null);
     const [toastMsg, setToast] = useState<string>();
+    const history= useHistory()
 
     const consultarTramite= async ()=>{
-        const tipo_send= tipo_search.current?.value as typesQuerys;
+        const tipo_send= tipo_search.current?.value as typesProceedings;
         const valor_send= valor_search.current?.value as string;
         if(tipo_send && valor_send){
-            //codigo
+                confecamaras.consultarExpediente(tipo_send, valor_send);
+                history.replace("/queryproceedings")
         }else{
             setToast("Por favor llene todos los campos")
         }
@@ -54,8 +57,7 @@ const Certificate: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
-                      color="medium"  onDidDismiss={()=>{setToast("")}}/>
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000} onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -110,7 +112,7 @@ const Certificate: React.FC = ()=>{
                                     <IonLabel position='floating'>
                                         Ingrese el valor...
                                     </IonLabel>
-                                    <IonInput  type='text'></IonInput>
+                                    <IonInput  type='text' ref={valor_search}></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>

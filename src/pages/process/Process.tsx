@@ -12,11 +12,8 @@ import {
     IonToolbar,
     IonLabel, IonButton
 } from "@ionic/react";
-import {card, documentText} from "ionicons/icons";
-import Logo from "../../components/Logo";
 import  '../Home.css';
 import { chevronBack } from 'ionicons/icons';
-import ConfecamarasContext from "../../data/confecamaras";
 
 const Process: React.FC = ()=>{
 

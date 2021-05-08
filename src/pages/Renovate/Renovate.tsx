@@ -48,7 +48,7 @@ const Renovate: React.FC = ()=>{
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
             <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
-            color="medium" onDidDismiss={()=>{setToast("")}}/>
+             onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

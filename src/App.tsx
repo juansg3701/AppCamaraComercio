@@ -23,9 +23,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import CapatitationContextProvider from "./data/CapatitationContextProvider";
-import apiwp from './api/wordpressApi';
 import Information from "./pages/information/Information";
-import {documentText, informationCircle} from "ionicons/icons";
 import Process from "./pages/process/Process";
 import Certificate from "./pages/certificate/Certificate";
 import Renovate from "./pages/Renovate/Renovate";

@@ -12,8 +12,6 @@ import {
     IonToolbar,
     IonLabel
 } from "@ionic/react";
-import {card, documentText} from "ionicons/icons";
-import Logo from "../../components/Logo";
 import  '../Home.css';
 import { chevronBack } from 'ionicons/icons';
 
