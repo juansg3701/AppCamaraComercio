@@ -10,7 +10,7 @@ import {
     IonRow,
     IonTitle,
     IonToolbar,
-    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal
+    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal, IonToast
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
@@ -18,19 +18,37 @@ import ModalInformation from "../../components/ModalInformation";
 
 const Renovate: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
+    const [toastMsg, setToast]= useState<string>();
     const openCompleteModal = () => {
-        let message="Información sobre renovaciones";
+        let message="Apreciado usuario, para renovar una matrícula mercantil o una " +
+            "Entidad Sin Animo de Lucro debe indicar el número de la matrícula o de " +
+            "inscripción o el número de identificación del expediente que se desea renovar " +
+            "y oprima el botón Continuar." +
+            "Si usted había realizado previamente el trámite y lo salvó " +
+            "(para pago en caja o pago en línea) puede retormar dicho " +
+            "trámite indicando a continuación el número de recuperación que " +
+            "el sistema le informó al momento de salvarlo. Igualmente este " +
+            "número viene impreso en los formularios que se imprimen luego" +
+            " del diligenciamiento.";
         setStateModal(message);
     };
     const closeModal = () => {
         setStateModal("");
     };
+    const renovar=()=>{
+        if(2==2){
+            //codigo
+        }else{
+            setToast("Por favor llene todos los campos")
+        }
+    }
     return(
         <React.Fragment>
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+            color="medium" onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

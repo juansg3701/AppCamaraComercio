@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import {IonApp, IonContent, IonIcon, IonPage, IonRouterLink, IonRouterOutlet} from '@ionic/react';
+import {IonApp, IonContent, IonFab, IonFabButton, IonIcon, IonPage, IonRouterLink, IonRouterOutlet} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 
@@ -25,7 +25,7 @@ import './theme/variables.css';
 import CapatitationContextProvider from "./data/CapatitationContextProvider";
 import apiwp from './api/wordpressApi';
 import Information from "./pages/information/Information";
-import {documentText} from "ionicons/icons";
+import {documentText, informationCircle} from "ionicons/icons";
 import Process from "./pages/process/Process";
 import Certificate from "./pages/certificate/Certificate";
 import Renovate from "./pages/Renovate/Renovate";
@@ -36,10 +36,19 @@ import QueryNames from "./pages/Names/QueryNames";
 import React from "react";
 import ResultsReceipt from "./pages/Qprocess/ResultsReceipt";
 import ResultsRadicate from "./pages/Qprocess/ResultsRadicate";
+import QueryProceedings from "./pages/certificate/QueryProceedings";
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
+    <IonContent>
+      {/*
+      <IonFab vertical="top" horizontal="end" slot="fixed">
 
+          <iframe width="120" height="60" src="https://cloudoledgo.com:2000/AudioPlayer/ccs?" className="border:5"></iframe>
+
+      </IonFab>
+      */}
+    </IonContent>
+    <IonReactRouter>
       <IonRouterOutlet>
         <CapatitationContextProvider>
         <Route exact path="/home">
@@ -65,17 +74,21 @@ const App: React.FC = () => (
           <Route exact path='/names'>
             <Names/>
           </Route>
+          <Route exact path='/querynames'>
+              <QueryNames/>
+          </Route>
           <Route exact path='/qprocess'>
             <Qprocess/>
           </Route>
-            <Route exact path='/querynames'>
-              <QueryNames/>
-            </Route>
+
             <Route exact path='/resultsreceipt'>
               <ResultsReceipt/>
             </Route>
             <Route exact path='/resultsradicate'>
               <ResultsRadicate/>
+            </Route>
+            <Route exact path='/queryproceedings'>
+              <QueryProceedings/>
             </Route>
           </ConfecamarasContextProvider>
         </CapatitationContextProvider>

@@ -10,7 +10,7 @@ import {
     IonRow,
     IonTitle,
     IonToolbar,
-    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal
+    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal, IonToast
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
@@ -24,24 +24,34 @@ const Qprocess: React.FC = ()=>{
     const history = useHistory();
     const tipo_search = useRef<HTMLIonSegmentElement>(null);
     const valor_search = useRef<HTMLIonInputElement>(null);
+    const [toastMsg, setToast]= useState<string>();
 
     const consultarTramite= async ()=>{
         const tipo_send= tipo_search.current?.value as typesQuerys;
         const valor_send= valor_search.current?.value as string;
-        await confecamaras.consultarTramite(tipo_send,valor_send);
-        switch (tipo_send) {
-            case "recibo":
-                history.replace('/resultsreceipt')
-                break;
-            case "radicado":
-                history.replace('/resultsradicate')
-                break;
 
+        if(tipo_send && valor_send){
+            await confecamaras.consultarTramite(tipo_send,valor_send);
+            switch (tipo_send) {
+                case "recibo":
+                    history.replace('/resultsreceipt')
+                    break;
+                case "radicado":
+                    history.replace('/resultsradicate')
+                    break;
+            }
+        }else{
+            setToast("Por favor llene todos los campos");
         }
     }
 
         const openCompleteModal = () => {
-        let message="Información sobre consulta de trámites";
+        let message="Esta opción le permite conocer el " +
+            "estado de los trámites que se han radicado en " +
+            "la Cámara de Comercio. Por favor indique el criterio a " +
+            "través del cual desea realizar la consulta. Seleccione solamente " +
+            "uno de los criterios que se disponen para la consulta. Indicado " +
+            "el contenido del criterio a utilizar, oprima el botón \"CONSULTAR\".";
         setStateModal(message);
     };
     const closeModal = () => {
@@ -52,7 +62,8 @@ const Qprocess: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+                      color="medium" onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -81,7 +92,7 @@ const Qprocess: React.FC = ()=>{
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                 <IonLabel className="titulos">
-                                    Certificados
+                                    Consulta de trámites
                                 </IonLabel>
                             </IonCol>
                         </IonRow>

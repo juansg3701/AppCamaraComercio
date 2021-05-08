@@ -1,6 +1,11 @@
-.prueba{
-    background-color: red;
+ion-card{
+    color: #0d0d0d;
+    font-size: 15px;
 }
+p{
+    color: #0d0d0d;
+}
+
 ion-toolbar {
     --background: #DF0009;
     height: 50px;
@@ -16,6 +21,13 @@ ion-toolbar {
 }
 .titulos{
     color: #DF0009;
+    font-style: oblique;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.titulos-busquedas{
+    color: #3a7be0;
     font-style: oblique;
     font-size: 23px;
     font-weight: bold;

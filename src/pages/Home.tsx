@@ -59,27 +59,30 @@ return (
     */}
 
   <IonRow className="ion-align-items-center">
-      <IonCol className="ion-text-center" size="4" >
+      <IonCol className="ion-text-center" size="6" >
           <IonRouterLink href="/information">
               <img src="assets/img/info.png" height="50" width="50"/>
               <br></br>
               Información
           </IonRouterLink>
       </IonCol>
-      <IonCol className="ion-text-center" size="4">
+      <IonCol className="ion-text-center" size="6">
           <IonRouterLink href="/process">
               <img src="assets/img/tramites.png" height="50" width="50"/>
               <br></br>
               Trámites registrales
           </IonRouterLink>
       </IonCol>
-      <IonCol className="ion-text-center" size="4">
-          <IonRouterLink href="https://www.facebook.com/camarastereo/">
-              <img src="assets/img/radio.png" height="50" width="50"/>
+
+
+      <IonCol className="ion-text-center" size="12">
+              <iframe width="120" height="60" src="https://cloudoledgo.com:2000/AudioPlayer/ccs?" className="border:5"></iframe>
               <br></br>
+          <IonRouterLink>
               Emisora virtual
           </IonRouterLink>
       </IonCol>
+
   </IonRow>
   <IonCol>
       <IonRow>
@@ -94,13 +97,14 @@ return (
 
       <IonCard className={card}>
       <IonRow key={key} className="ion-align-items-center">
+          <IonRouterLink href={item.link}>
               <IonCol className="ion-text-center" size="4">
                   <IonImg src={item.featured_media}/>
               </IonCol>
-          <IonCol size="8">
-              {item.title.rendered}
-
-          </IonCol>
+              <IonCol size="8">
+                  {item.title.rendered}
+              </IonCol>
+          </IonRouterLink>
       </IonRow>
       </IonCard>
   ))}

@@ -14,7 +14,7 @@ import {
 import ConfecamarasContext from "../../data/confecamaras";
 import {card, chevronBack} from "ionicons/icons";
 
-const QueryNames: React.FC=()=>{
+const QueryProceedings: React.FC=()=>{
     const confecamaras = useContext(ConfecamarasContext);
 
     return(
@@ -48,14 +48,14 @@ const QueryNames: React.FC=()=>{
                         <IonCol className="ion-text-center" size="12">
                             {confecamaras.names.map((item,key) => (
                                 <IonCard className={card}>
-                                    <IonRow className="ion-align-items-center">
-                                        <IonCol className="ion-text-center titulos-busquedas" size="12">
+                                    <IonRow key={key} className="ion-align-items-center">
+                                        <IonCol className="ion-text-center" size="12">
                                             <b>{item.razon_social}</b>
                                         </IonCol>
                                         <IonCol size="12" className="ion-text-left">
-                                           <b> Cámara: </b>{item.desc_camara} <br/>
-                                           <b> Mátricula:</b> {item.matricula} <br/>
-                                           <b>No.Identificación:</b>  {item.numero_identificacion} <br/>
+                                            <b> Cámara: </b>{item.desc_camara} <br/>
+                                            <b> Mátricula:</b> {item.matricula} <br/>
+                                            <b>No.Identificación:</b>  {item.numero_identificacion} <br/>
                                             <b>Tipo:</b>  {item.desc_tipo_sociedad} <br/>
                                             <b>Categoría:</b>  {item.desc_categoria_matricula} <br/>
                                             <b>Estado:</b>  {item.desc_estado_matricula} <br/>
@@ -74,4 +74,4 @@ const QueryNames: React.FC=()=>{
         </IonPage>
     );
 };
-export default QueryNames;
+export default QueryProceedings;

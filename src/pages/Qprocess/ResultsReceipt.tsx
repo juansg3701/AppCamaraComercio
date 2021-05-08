@@ -42,7 +42,7 @@ const ResultsReceipt: React.FC=()=>{
                     </IonRow>
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="12">
-                            <IonLabel className="titulos">
+                            <IonLabel className="titulos-busquedas">
                                 Resultados recibos:
                             </IonLabel>
                         </IonCol>
@@ -58,12 +58,71 @@ const ResultsReceipt: React.FC=()=>{
                                             <b> Radicado: </b>{confecamaras.recibos.radicado} <br/>
                                             <b> Identificación:</b> {confecamaras.recibos.identificacion} <br/>
                                             <b>Nombre:</b>  {confecamaras.recibos.nombre} <br/>
-                                            <b>Tipo:</b>  {confecamaras.recibos.tipotramite} <br/>
-                                            <b>Valor neto:</b>  {confecamaras.recibos.valorneto} <br/>
-                                            <b>url:</b>  {confecamaras.recibos.url} <br/>
+                                            <b>Tipo de trámite:</b>  {confecamaras.recibos.tipotramite} <br/>
+                                            <b>Tipo de registro:</b>  {confecamaras.recibos.tiporegistro} <br/>
                                         </IonCol>
                                     </IonRow>
                                 </IonCard>
+                        </IonCol>
+                        <IonCol size="12">
+                            <IonRow>
+                                <IonCol className="ion-text-center titulos-busquedas" size="12">
+                                    <b>Servicios</b>
+                                </IonCol>
+                                <IonCol size="12">
+                                    {confecamaras.recibos.servicios.map(item=>(
+                                        <IonCard className={card}>
+                                            <IonRow className="ion-align-items-center">
+                                                <IonCol size="12" className="ion-text-left">
+                                                    <b> No. servicio: </b>{item.nservicio} <br/>
+                                                    <b> Proponente:</b> {item.proponente} <br/>
+                                                    <b>Nombre:</b>  {item.nombre} <br/>
+                                                    <b>Identificación:</b>  {item.identificacion} <br/>
+                                                    <b>Mátricula:</b>  {item.matricula} <br/>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonCard>
+                                    ))}
+                                </IonCol>
+                            </IonRow>
+                        </IonCol>
+                        <IonCol size="12">
+                            <IonRow>
+                                <IonCol className="ion-text-center titulos-busquedas" size="12">
+                                    <b>Documentos</b>
+                                </IonCol>
+                                <IonCol size="12">
+                                    {confecamaras.recibos.imagenes.map(item=>(
+                                        <IonCard className={card}>
+                                            <IonRow  className="ion-align-items-center">
+                                                <IonCol size="12" className="ion-text-left">
+                                                    <b> Nombre: </b>{item.nombre} <br/>
+                                                    <b> Fecha: </b>{item.fechadocumento} <br/>
+                                                    <b> Url:</b> <IonRouterLink href={item.url}>Enlace del documento</IonRouterLink><br/>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonCard>
+                                    ))}
+                                </IonCol>
+                            </IonRow>
+                        </IonCol>
+                        <IonCol size="12">
+                            <IonRow>
+                                <IonCol className="ion-text-center titulos-busquedas" size="12">
+                                    <b>Certificados</b>
+                                </IonCol>
+                                <IonCol size="12">
+                                    {confecamaras.recibos.certificados.map(item=>(
+                                        <IonCard className={card}>
+                                            <IonRow  className="ion-align-items-center">
+                                                <IonCol size="12" className="ion-text-left">
+                                                    <b> Ruta: </b>{item.path} <br/>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonCard>
+                                    ))}
+                                </IonCol>
+                            </IonRow>
                         </IonCol>
                     </IonRow>
                     <IonCol>

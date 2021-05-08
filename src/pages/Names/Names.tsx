@@ -21,7 +21,7 @@ import {
     IonFab,
     IonFabButton,
     IonModal,
-    IonRouterOutlet
+    IonRouterOutlet, IonToast
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
@@ -37,14 +37,24 @@ const Names: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
     const confecamaras = useContext(ConfecamarasContext);
     const history = useHistory();
+    const [toastMsg,setToast]= useState<string>();
     const name_search = useRef<HTMLIonInputElement>(null);
     const consultaNombres= async ()=>{
         const name_send = name_search.current?.value as string;
-       await confecamaras.consultarNombre(name_send);
-        history.replace('/querynames');
+        if(name_send){
+            await confecamaras.consultarNombre(name_send);
+            history.replace('/querynames');
+        }else{
+            setToast("Por favor llene todos los campos");
+        }
+
     }
     const openCompleteModal = () => {
-        let message="Información sobre consulta de nombres";
+        let message="A continuación, por favor defina " +
+            "cual es el nombre para su empresa/negocio, " +
+            "luego consulte que esté disponible y no lo " +
+            "tenga ninguna otra compañía dentro del territorio " +
+            "nacional.";
         setStateModal(message);
     };
     const closeModal = () => {
@@ -55,6 +65,8 @@ const Names: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+                      color="medium" onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

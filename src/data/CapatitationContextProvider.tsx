@@ -13,7 +13,8 @@ const CapatitationContextProvider: React.FC = (props) => {
 
     const obtenerDatos=async ()=>{
         let capacitation_p:capacitation[]=[];
-        let url="https://camarasogamoso.org/wp-json/wp/v2/posts/";
+        let url="https://camarasogamoso.org/wp-json/wp/v2/posts?categories=44";
+
 
         await fetch(url, {
             method: 'GET',
@@ -28,10 +29,14 @@ const CapatitationContextProvider: React.FC = (props) => {
                 const images =await fetch("https://camarasogamoso.org/wp-json/wp/v2/media/" + capacitation_p[i].featured_media)
                     .then(rest => rest.json()).then(
                         (result) => {
+                            if(result.status==undefined){
+                                capacitation_p[i].featured_media = "assets/img/logo.jpg";
+                            }else{
                             capacitation_p[i].featured_media = result.guid.rendered;
+                                 }
                         })
             }else{
-                capacitation_p[i].featured_media = "https://camarasogamoso.org/wp-content/uploads/2020/06/compact_logo.png";
+                capacitation_p[i].featured_media = "assets/img/logo.jpg";
             }
         }
         setCapacitations(capacitation_p)

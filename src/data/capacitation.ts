@@ -5,6 +5,7 @@ export interface capacitation {
     title: any;
     featured_media: string;
     guid: any;
+    link: string;
 }
 
 export interface CapacitationContextModel {

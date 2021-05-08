@@ -41,7 +41,7 @@ const ResultsRadicate: React.FC=()=>{
                     </IonRow>
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="12">
-                            <IonLabel className="titulos">
+                            <IonLabel className="titulos-busquedas">
                                 Resultados radicados:
                             </IonLabel>
                         </IonCol>
@@ -57,9 +57,11 @@ const ResultsRadicate: React.FC=()=>{
                                             <b> Recibo: </b>{confecamaras.radicados.recibo} <br/>
                                             <b> Identificación:</b> {confecamaras.radicados.identificacion} <br/>
                                             <b>Nombre:</b>  {confecamaras.radicados.nombre} <br/>
+                                            <b>Tipo trámite:</b>  {confecamaras.radicados.tipotramite} <br/>
+                                            <b>Fecha radicado:</b>  {confecamaras.radicados.fecharadicacion} <br/>
+                                            <b>Fecha estado final:</b>  {confecamaras.radicados.fechaestadofinal} <br/>
+                                            <b>Acto reparto:</b>  {confecamaras.radicados.actoreparto} <br/>
                                             <b>Estado final:</b>  {confecamaras.radicados.estadofinal} <br/>
-                                            <b>Estado:</b>  {confecamaras.radicados.estado} <br/>
-                                            <b>Fecha:</b>  {confecamaras.radicados.fecha} <br/>
                                         </IonCol>
                                     </IonRow>
                                 </IonCard>

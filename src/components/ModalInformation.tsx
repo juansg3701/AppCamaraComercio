@@ -33,13 +33,15 @@ const ModalInformation: React.FC<ModalInformationyProps> = (props) => {
                     </IonCol>
                 </IonRow>
                 <IonRow>
-                    <IonCol className='ion-text-center ion-no-padding'>
+                    <IonCol size="1"/>
+                    <IonCol className='ion-text-center ion-no-padding' size="10">
                         <IonText color='medium'>
-                            <p>
+                            <p className="ion-text-justify">
                                 {props.message}
                             </p>
                         </IonText>
                     </IonCol>
+                    <IonCol size="1"/>
                 </IonRow>
                 <IonRow>
                     <IonCol className='ion-text-center'>

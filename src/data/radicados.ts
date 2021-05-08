@@ -4,6 +4,10 @@ export interface radicados {
     identificacion: string,
     nombre: string,
     estadofinal:string,
-    estado: string,
-    fecha:string
+    tipotramite: string,
+    fecharadicacion: string,
+    fechaestadofinal: string,
+    actoreparto: string,
+
+
 }

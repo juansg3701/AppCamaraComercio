@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {
     IonCard,
     IonCol, IonContent,
@@ -10,23 +10,39 @@ import {
     IonRow,
     IonTitle,
     IonToolbar,
-    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal
+    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal, IonToast
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
-import ConfecamarasContext from "../../data/confecamaras";
+import ConfecamarasContext, {typesQuerys} from "../../data/confecamaras";
 import itemContext from "../../data/capacitation";
 
 const Certificate: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
     const confecamaras = useContext(ConfecamarasContext);
-    useEffect(()=>{
-        confecamaras.solicitarToken()
-    },[]);
+    const tipo_search= useRef<HTMLIonSegmentElement>(null);
+    const valor_search= useRef<HTMLIonInputElement>(null);
+    const [toastMsg, setToast] = useState<string>();
 
+    const consultarTramite= async ()=>{
+        const tipo_send= tipo_search.current?.value as typesQuerys;
+        const valor_send= valor_search.current?.value as string;
+        if(tipo_send && valor_send){
+            //codigo
+        }else{
+            setToast("Por favor llene todos los campos")
+        }
+    }
     const openCompleteModal = () => {
-        let message="Información sobre certificados";
+        let message="Solicite en forma automática, certificados de matrícula " +
+            "mercantil, certificados de existencia y representación legal, " +
+            "certificados de libros de comercio, certificados de existencia y " +
+            "representación de entidades sin ánimo de lucro y certificados " +
+            "de proponentes. " +
+            "Si desea expedir alguno de los certificados antes mencionados, " +
+            "por favor realice a continuación la consulta para encontrar el" +
+            " expediente que desea certificar y siga las instrucciones.";
         setStateModal(message);
     };
     const closeModal = () => {
@@ -38,7 +54,8 @@ const Certificate: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+                      color="medium"  onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
@@ -73,8 +90,8 @@ const Certificate: React.FC = ()=>{
                         </IonRow>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonSegment color="danger">
-                                    <IonSegmentButton value='identificacion'>
+                                <IonSegment color="danger" ref={tipo_search}>
+                                    <IonSegmentButton value='identificacion' >
                                         <IonLabel>Documento de<br/>identificación</IonLabel>
                                     </IonSegmentButton>
                                     <IonSegmentButton value='nombre'>
@@ -91,7 +108,7 @@ const Certificate: React.FC = ()=>{
                             <IonCol className="ion-text-center" size="12">
                                 <IonItem>
                                     <IonLabel position='floating'>
-                                        Ingrese el número...
+                                        Ingrese el valor...
                                     </IonLabel>
                                     <IonInput  type='text'></IonInput>
                                 </IonItem>
@@ -102,7 +119,7 @@ const Certificate: React.FC = ()=>{
                         </IonCol>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonButton expand='block' fill='outline'>
+                                <IonButton expand='block' fill='outline' onClick={()=>{consultarTramite()}}>
                                     Consultar
                                 </IonButton>
                             </IonCol>

@@ -4,6 +4,7 @@ import {recibos} from "./recibos";
 import {radicados} from "./radicados";
 
 export type typesQuerys = 'radicado' | 'recibo';
+export type  typesProceedings = 'identificacion' | 'matricula';
 export interface confecamaras {
     token: string;
 }
@@ -15,6 +16,7 @@ export interface ConfecamarasContextModel {
     solicitarToken:()=>void;
     consultarNombre:(nombre: string)=>Promise<nombres[]>;
     consultarTramite:(tipo: typesQuerys,valor:string)=>void;
+    consultarExpedienteMercantil:(tipo: typesProceedings, valor: string)=>void;
 }
 const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
     token:"",
@@ -24,6 +26,7 @@ const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
     solicitarToken: () => {},
     consultarNombre:(nombre)=><Promise<nombres[]>>{},
     consultarTramite:(tipo,valor)=>{},
+    consultarExpedienteMercantil:(tipo,valor)=>{},
 
 });
 
