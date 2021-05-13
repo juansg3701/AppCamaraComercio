@@ -22,14 +22,13 @@ const QueryProceedings: React.FC=()=>{
     const confecamaras = useContext(ConfecamarasContext);
     const history = useHistory()
     const [expedientesF,setExpedientesF]= useState<expedientes>({matricula:"",identificación:"",nit:"",emailcom:"",idclase:""
-        ,servicio:0,valor:0,estadomatricula:"",nombre:""})
+        ,estadomatricula:"",nombre:"",certificados:[]})
     const firstCertficate=(expediente: expedientes)=>{
-       // history.replace("/firstcertificate")
         setExpedientesF(expediente);
     };
     const closeModal=()=>{
         let prueba_expedientes: expedientes={matricula:"",identificación:"",nit:"",emailcom:"",idclase:""
-        ,servicio:0,valor:0,estadomatricula:"",nombre:""};
+        ,estadomatricula:"",nombre:"",certificados:[]};
         setExpedientesF(prueba_expedientes)
     };
 

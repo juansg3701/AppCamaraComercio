@@ -9,6 +9,7 @@ import {nombres} from "./nombres";
 import {radicados} from "./radicados";
 import {recibos} from "./recibos";
 import {expedientes} from "./expedientes";
+//import CryptoJS from 'crypto-js';
 
 
 const ConfecamarasContextProvider: React.FC = (props) => {
@@ -670,7 +671,65 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         setExpedientes(expendientes_p);
     }
 
-    const solicitarCertificado= async (expediente: expedientes, valor1: number, valor2: number, valor3: number)=>{
+    const solicitarCertificado= async (expediente: expedientes, valor1: number, valor2: number,
+                                       valor3: number,valor4: number, valor5: number, valor6: number)=>{
+
+    }
+    const encriptarClave=(action: string, secret_key: string, secret_iv: string,string: string)=>{
+        /*
+        let output = false;
+        let encrypt_method = "AES-256-CBC";
+        let key = CryptoJS.HmacSHA256('sha256', secret_key); //en lugar de hash para typescript
+        let iv = string.substr(CryptoJS.HmacSHA256('sha256', secret_iv), 0, 16);
+        if (action == 'encrypt') {
+            output = openssl_encrypt(string, encrypt_method, key, 0, iv);
+            output = base64_encode(output);
+        } else if ($action == 'decrypt') {
+            output = openssl_decrypt(base64_decode(string), encrypt_method, key, 0, iv);
+        }
+        return output;
+
+         */
+        /*
+        <?php
+$action="encrypt";
+$secret_key="aaaaaaaaaaaaaaaa";
+$secret_iv="1234567890123456";
+$string="texttexttexttext";
+
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $key = hash('sha256', $secret_key);
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        if ($action == 'encrypt') {
+            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+            $output = base64_encode($output);
+        } else if ($action == 'decrypt') {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        echo $output;
+
+?>
+         */
+
+        var aesjs = require("aes-js");
+        var pkcs7 = require("pkcs7");
+
+        let iv = aesjs.utils.utf8.toBytes(secret_iv);
+        let key = aesjs.utils.utf8.toBytes(secret_key);
+        let text = aesjs.utils.utf8.toBytes(string);
+
+        let aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+        let encryptedBytes = aesCbc.encrypt(pkcs7.pad(text));
+
+        let hex = aesjs.utils.hex.fromBytes(encryptedBytes);
+        let buf = Buffer.from(hex, 'hex');
+
+        console.log(buf.toString('base64'));
+
+
+    }
+    const autenticarUsuarioRegistrado= async (identificacion: string, correo: string, clave: string,celular: string)=>{
 
     }
 
@@ -685,6 +744,7 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         consultarTramite,
         consultarExpediente,
         solicitarCertificado,
+        autenticarUsuarioRegistrado,
     };
     return(
         <ConfecamarasContext.Provider value={confecamarasContext}>

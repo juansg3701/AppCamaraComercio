@@ -34,10 +34,12 @@ const Qprocess: React.FC = ()=>{
             await confecamaras.consultarTramite(tipo_send,valor_send);
             switch (tipo_send) {
                 case "recibo":
-                    history.replace('/resultsreceipt')
+                    //history.replace('/resultsreceipt')
+                    history.push('/resultsreceipt')
                     break;
                 case "radicado":
-                    history.replace('/resultsradicate')
+                    //history.replace('/resultsradicate')
+                    history.push('/resultsradicate')
                     break;
             }
         }else{

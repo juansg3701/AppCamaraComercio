@@ -43,7 +43,8 @@ const Names: React.FC = ()=>{
         const name_send = name_search.current?.value as string;
         if(name_send){
             await confecamaras.consultarNombre(name_send);
-            history.replace('/querynames');
+            //history.replace('/querynames');
+            history.push('/querynames')
         }else{
             setToast("Por favor llene todos los campos");
         }

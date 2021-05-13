@@ -1,3 +1,10 @@
+export interface certificados {
+    tipocertificado: string,
+    descripciontipocertificado: string,
+    servicio: string,
+    valor: number
+}
+
 export interface expedientes {
     matricula: string,
     nombre: string,
@@ -6,6 +13,5 @@ export interface expedientes {
     nit: string,
     estadomatricula: string,
     emailcom: string,
-    servicio: number,
-    valor: number,
+    certificados: certificados[]
 }

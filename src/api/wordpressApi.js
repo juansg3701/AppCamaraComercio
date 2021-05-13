@@ -12,6 +12,63 @@ export default class wordpressApi {
         return apiwp.get(`media/${number}`).
         then((resp)=>resp.data).catch((error)=>error.message);
     }
+
+    static encriptado(){
+        /*
+        Prueba php
+        $action="encrypt";
+$secret_key="aaaaaaaaaaaaaaaa";
+$secret_iv="1234567890123456";
+$string="texttexttexttext";
+
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $key = hash('sha256', $secret_key);
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        if ($action == 'encrypt') {
+            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+            $output = base64_encode($output);
+        } else if ($action == 'decrypt') {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        echo $output;
+         */
+        /*
+        var aesjs = require("aes-js");
+var base64 = require("js-base64");
+var pkcs7 = require("pkcs7");
+
+var iv = aesjs.utils.utf8.toBytes("1234567890123456");
+var key = aesjs.utils.utf8.toBytes("aaaaaaaaaaaaaaaa");
+var text = aesjs.utils.utf8.toBytes("texttexttexttext");
+
+var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+var encryptedBytes = aesCbc.encrypt(pkcs7.pad(text));
+
+var hex = aesjs.utils.hex.fromBytes(encryptedBytes);
+var buf = Buffer.from(hex, 'hex');
+
+console.log(buf.toString('base64'));
+// output: 'rAI8n0cKtwiu1N5hfDWs3rPbz0UmvlbW+LJliYox03c='
+
+         */
+        var aesjs = require("aes-js");
+        var base64 = require("js-base64");
+        var pkcs7 = require("pkcs7");
+
+        var iv = aesjs.utils.utf8.toBytes("1234567890123456");
+        var key = aesjs.utils.utf8.toBytes("aaaaaaaaaaaaaaaa");
+        var text = aesjs.utils.utf8.toBytes("texttexttexttext");
+
+        var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+        var encryptedBytes = aesCbc.encrypt(pkcs7.pad(text));
+
+        var hex = aesjs.utils.hex.fromBytes(encryptedBytes);
+        var buf = Buffer.from(hex, 'hex');
+
+        console.log(buf.toString('base64'));
+
+    }
     /*
 
     function MyComponent() {

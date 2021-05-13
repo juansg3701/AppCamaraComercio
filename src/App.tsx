@@ -62,7 +62,6 @@ const App: React.FC = () => (
             <Route exact path='/process'>
               <Process/>
             </Route>
-
           <Route exact path='/certificate'>
             <Certificate/>
           </Route>

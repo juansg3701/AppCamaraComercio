@@ -32,7 +32,8 @@ const Certificate: React.FC = ()=>{
         const valor_send= valor_search.current?.value as string;
         if(tipo_send && valor_send){
                 confecamaras.consultarExpediente(tipo_send, valor_send);
-                history.replace("/queryproceedings")
+                //history.replace("/queryproceedings")
+                history.push("/queryproceedings")
         }else{
             setToast("Por favor llene todos los campos")
         }

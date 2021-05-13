@@ -1,4 +1,5 @@
 import {
+    IonButton,
     IonCard,
     IonCol,
     IonContent, IonFooter,
@@ -14,11 +15,15 @@ import  './Home.css';
 import {card} from 'ionicons/icons';
 import React, {useContext} from "react";
 import itemContext from "../data/capacitation";
+import wordpressApi from "../api/wordpressApi";
 
 const Home: React.FC = () => {
 
     const itemsCtxt = useContext(itemContext);
 
+    const prueba=()=>{
+        wordpressApi.encriptado()
+    }
 
 // @ts-ignore
 // @ts-ignore
@@ -59,6 +64,7 @@ return (
               Información
           </IonRouterLink>
       </IonCol>
+      <IonButton onClick={()=>{prueba()}}>Prueba</IonButton>
       <IonCol className="ion-text-center" size="4">
           <IonRouterLink href="/process">
               <img src="assets/img/tramites.png" height="50" width="50"/>

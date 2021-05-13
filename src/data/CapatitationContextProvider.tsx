@@ -40,13 +40,10 @@ const CapatitationContextProvider: React.FC = (props) => {
             }
         }
         setCapacitations(capacitation_p)
-
     }
-
 
     const capacitationContext: CapacitationContextModel = {
         capacitation,
-
     };
 
     return (
