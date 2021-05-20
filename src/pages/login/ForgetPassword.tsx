@@ -24,7 +24,7 @@ const ForgetPassword: React.FC = ()=>{
     const history= useHistory()
     const openCompleteModal = () => {
         let message="Apreciado usuario, puede solicitar una nueva contraseña para iniciar sesión en nuestro sistema." +
-            "Será enviada a su correo electrónico si los datos suministrados son correctos";
+            " Esta le será enviada a su correo electrónico si los datos suministrados son correctos";
         setStateModal(message);
     };
     const closeModal = () => {
@@ -33,30 +33,26 @@ const ForgetPassword: React.FC = ()=>{
     const confecamaras = useContext(ConfecamarasContext)
     const documento_search=useRef<HTMLIonInputElement>(null)
     const correo_search= useRef<HTMLIonInputElement>(null)
-    const celular_search= useRef<HTMLIonInputElement>(null)
-    const clave_search= useRef<HTMLIonInputElement>(null)
 
-    const autenticarUsuario=()=>{
+    const restauraraClave=()=>{
         const documento_send= documento_search.current?.value as string
         const correo_send = correo_search.current?.value as string
-        const celular_send= celular_search.current?.value as string
-        const clave_send = clave_search.current?.value as string
-        if(documento_send && correo_send && celular_send && clave_send){
-            let verificacion = confecamaras.autenticarUsuarioRegistrado(documento_send,correo_send,clave_send,celular_send)
+        if(documento_send && correo_send ){
+            let verificacion = confecamaras.restaurarClaveRegistro(documento_send,correo_send)
             verificacion.then(value => {
                 console.log(value)
                 switch (value) {
                     case "0000":
-                        history.push('/session')
+                        history.push('/messagesuccess')
                         break;
-                    case "0003":
-                        setToast("Clave erronea")
+                    case "9995":
+                        setToast("Los datos no son correctos, por favor verifiquelos")
                         break;
-                    case "0001":
-                        setToast("Usuario no registrado o datos erroneos")
+                    case "9996":
+                        setToast("Los datos no son correctos, por favor verifiquelos")
                         break;
                     default:
-                        setToast("Por favor llene todos los campos correctamente")
+                        setToast("Por favor verifique los datos")
                         break;
                 }
             })
@@ -129,7 +125,7 @@ const ForgetPassword: React.FC = ()=>{
                         </IonCol>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonButton expand='block' fill='outline' onClick={()=>{autenticarUsuario()}}>
+                                <IonButton expand='block' fill='outline' onClick={()=>{restauraraClave()}}>
                                     Restaurar
                                 </IonButton>
                             </IonCol>

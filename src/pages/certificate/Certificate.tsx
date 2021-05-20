@@ -93,6 +93,9 @@ const Certificate: React.FC = ()=>{
                         </IonRow>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
+                                <IonLabel className="texto">
+                                    Seleccione el tipo de valor...
+                                </IonLabel>
                                 <IonSegment color="danger" ref={tipo_search}>
                                     <IonSegmentButton value='identificacion' >
                                         <IonLabel>Documento de<br/>identificación</IonLabel>

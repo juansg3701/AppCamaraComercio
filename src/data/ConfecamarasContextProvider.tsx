@@ -796,7 +796,29 @@ const ConfecamarasContextProvider: React.FC = (props) => {
             });
         return estado;
     }
+    async function restaurarClaveRegistro(documento: string, correo: string):Promise<string> {
+        let estado="";
+        let  token_p =  await solicitarToken();
 
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/restaurarClaveRegistro";
+        const json_send={
+        codigoempresa:"35",
+        usuariows:"appccs",
+        token:token_p,
+        identificacion:documento,
+        email:correo,
+    }
+        await fetch(url, {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(json_send), // data can be `string` or {object}!
+    }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+        //console.log('Success:', response)
+        estado=response.codigoerror;
+    });
+        return estado;
+    }
     const confecamarasContext: ConfecamarasContextModel={
         token,
         names,
@@ -809,7 +831,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         consultarExpediente,
         solicitarCertificado,
         autenticarUsuarioRegistrado,
-        solicitarRegistro
+        solicitarRegistro,
+        restaurarClaveRegistro
     };
     return(
         <ConfecamarasContext.Provider value={confecamarasContext}>

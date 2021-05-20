@@ -26,7 +26,8 @@ export interface ConfecamarasContextModel {
     autenticarUsuarioRegistrado:(identificacion: string, correo: string, clave: string, celular: string)=>Promise<string>;
     solicitarRegistro:(tipo_documento: typeDocument,identificacion:string, nombre1:string, nombre2:string, apellido1:string,
                        apellido2:string, correo:string, celular:string, fecha_nacimiento: string,
-                       fecha_expedicion: string)=>Promise<string>
+                       fecha_expedicion: string)=>Promise<string>;
+    restaurarClaveRegistro:(documento: string, correo: string)=>Promise<string>
 }
 const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
         token: "",
@@ -46,7 +47,8 @@ const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
         },
         autenticarUsuarioRegistrado: (identificacion, correo, clave, celular) => <Promise<"">>{},
         solicitarRegistro:(tipo_documento,identificacion,nombre1,nombre2,apellido1,apellido2,
-                           correo,celular,fecha_nacimiento,fecha_expedicion)=><Promise<"">>{}
+                           correo,celular,fecha_nacimiento,fecha_expedicion)=><Promise<"">>{},
+        restaurarClaveRegistro:(documento,correo)=><Promise<"">>{}
     }
 );
 

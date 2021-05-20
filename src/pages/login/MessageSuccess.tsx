@@ -58,7 +58,7 @@ const MessageSuccess: React.FC = ()=>{
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                 <IonLabel className="titulos">
-                                    Registro exitoso
+                                    Transacción exitosa
                                 </IonLabel>
                             </IonCol>
                         </IonRow>
@@ -66,7 +66,7 @@ const MessageSuccess: React.FC = ()=>{
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                     <p className="ion-text-justify">
-                                        Se ha creado la solicitud de registro, se le enviará un correo con el enlace para que haga la activación/confirmación respectiva, una vez tenga la cuenta activa podrá inciar sesión.
+                                        Se ha creado la solicitud, se le enviará un correo con el enlace para que haga la activación/confirmación respectiva, una vez tenga la cuenta activa podrá inciar sesión.
                                     </p>
                             </IonCol>
                         </IonRow>
@@ -77,7 +77,7 @@ const MessageSuccess: React.FC = ()=>{
                             <IonCol className="ion-text-center" size="12">
                                 <IonRouterLink href="/login">
                                     <IonButton expand='block' fill='outline' color='primary' >
-                                        Volver a inicio de sesión
+                                        Volver al inicio de sesión
                                     </IonButton>
                                 </IonRouterLink>
                             </IonCol>

@@ -82,7 +82,6 @@ const Session: React.FC = ()=>{
                             </IonRouterLink>
                         </IonCol>
                     </IonRow>
-
                         <IonCol>
                             <IonRow></IonRow>
                         </IonCol>

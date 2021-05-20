@@ -88,11 +88,6 @@ const QueryProceedings: React.FC=()=>{
                                                     Certificado automático
                                                 </IonButton>
                                             </IonCol>
-                                            <IonCol size="12">
-                                                <IonButton color="warning" >
-                                                    Certificado especial
-                                                </IonButton>
-                                            </IonCol>
                                         </IonRow>
                                     </IonCard>
                                 ))}
