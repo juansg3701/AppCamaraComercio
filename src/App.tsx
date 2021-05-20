@@ -39,6 +39,7 @@ import LoginStart from "./pages/login/LoginStart";
 import Session from "./pages/login/Session";
 import SignupCCS from "./pages/login/SignupCCS";
 import MessageSuccess from "./pages/login/MessageSuccess";
+import ForgetPassword from "./pages/login/ForgetPassword";
 const App: React.FC = () => (
   <IonApp>
     <IonContent>
@@ -90,9 +91,13 @@ const App: React.FC = () => (
           <Route exact path='/signup'>
             <SignupCCS/>
           </Route>
-            <Route exact path='/messagesuccess'>
-              <MessageSuccess/>
+          <Route exact path='/messagesuccess'>
+            <MessageSuccess/>
+          </Route>
+            <Route exact path='/forgetpassword'>
+              <ForgetPassword/>
             </Route>
+
 
             <Route exact path='/resultsreceipt'>
               <ResultsReceipt/>

@@ -6,6 +6,7 @@ import {expedientes} from "./expedientes";
 
 export type typesQuerys = 'radicado' | 'recibo';
 export type  typesProceedings = 'identificacion' | 'matricula' | 'nombre';
+export type typeDocument = 'cedula' | 'nit';
 export interface confecamaras {
     token: string;
 }
@@ -23,7 +24,7 @@ export interface ConfecamarasContextModel {
                           valor4: number, valor5: number, valor6: number)=>void;
 
     autenticarUsuarioRegistrado:(identificacion: string, correo: string, clave: string, celular: string)=>Promise<string>;
-    solicitarRegistro:(identificacion:string, nombre1:string, nombre2:string, apellido1:string,
+    solicitarRegistro:(tipo_documento: typeDocument,identificacion:string, nombre1:string, nombre2:string, apellido1:string,
                        apellido2:string, correo:string, celular:string, fecha_nacimiento: string,
                        fecha_expedicion: string)=>Promise<string>
 }
@@ -44,7 +45,7 @@ const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
                                valor4, valor5, valor6) => {
         },
         autenticarUsuarioRegistrado: (identificacion, correo, clave, celular) => <Promise<"">>{},
-        solicitarRegistro:(identificacion,nombre1,nombre2,apellido1,apellido2,
+        solicitarRegistro:(tipo_documento,identificacion,nombre1,nombre2,apellido1,apellido2,
                            correo,celular,fecha_nacimiento,fecha_expedicion)=><Promise<"">>{}
     }
 );

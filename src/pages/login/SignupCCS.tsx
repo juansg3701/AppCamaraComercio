@@ -27,7 +27,7 @@ import {
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
-import ConfecamarasContext from "../../data/confecamaras";
+import ConfecamarasContext, {typeDocument} from "../../data/confecamaras";
 import {useHistory} from "react-router";
 import ModalPrivacy from "../../components/ModalPrivacy";
 import ModalDatatreatment from "../../components/ModalDatatreatment";
@@ -53,6 +53,7 @@ const SignupCCS: React.FC = ()=>{
         setStateModalData("");
     };
     const confecamaras = useContext(ConfecamarasContext)
+    const tipo_documento=useRef<HTMLIonSegmentElement>(null)
     const documento_search=useRef<HTMLIonInputElement>(null)
     const nombre1_search= useRef<HTMLIonInputElement>(null)
     const nombre2_search= useRef<HTMLIonInputElement>(null)
@@ -64,6 +65,7 @@ const SignupCCS: React.FC = ()=>{
     const fecha_expedicion_search= useRef<HTMLIonDatetimeElement>(null)
 
     const registrarse=()=>{
+        const tipo_documento_send= tipo_documento.current?.value as typeDocument
         const documento_send= documento_search.current?.value as string
         const nombre1_send= nombre1_search.current?.value as string
         const nombre2_send= nombre2_search.current?.value as string
@@ -75,32 +77,35 @@ const SignupCCS: React.FC = ()=>{
         const fecha_expedicion_send= fecha_expedicion_search.current?.value as string
 
 
-
-        if(documento_send && nombre1_send && apellido1_send && apellido2_send &&correo_send && celular_send
-        && fecha_nacimiento_send && fecha_expedicion_send){
-
-            let verificacion = confecamaras.solicitarRegistro(documento_send,nombre1_send, nombre2_send,
-            apellido1_send,apellido2_send,correo_send,celular_send,fecha_nacimiento_send,fecha_expedicion_send)
+        if(checked){
+            if(documento_send && nombre1_send && apellido1_send && apellido2_send &&correo_send && celular_send
+                && fecha_nacimiento_send && fecha_expedicion_send){
+                let verificacion = confecamaras.solicitarRegistro(tipo_documento_send ,documento_send,nombre1_send, nombre2_send,
+                    apellido1_send,apellido2_send,correo_send,celular_send,fecha_nacimiento_send,fecha_expedicion_send)
                 verificacion.then(value => {
-                console.log(value)
-                switch (value) {
-                    case "0000":
-                        history.push('/session')
-                        break;
-                    case "0003":
-                        setToast("Clave erronea")
-                        break;
-                    case "0001":
-                        setToast("Usuario no registrado o datos erroneos")
-                        break;
-                    default:
-                        setToast("Por favor llene todos los campos correctamente")
-                        break;
-                }
-            })
+                    console.log(value)
+                    switch (value) {
+                        case "0000":
+                            history.replace('/messagesuccess')
+                            break;
+                        case "9996":
+                            setToast("Solicitud ya existe y está confirmada")
+                            break;
+                        case "9997":
+                            setToast("Solicitud ya existe y no está confirmada")
+                            break;
+                        default:
+                            setToast("Verifique los datos ingresados")
+                            break;
+                    }
+                })
+            }else{
+                setToast("Por favor llene todos los campos correctamente")
+            }
         }else{
-            setToast("Por favor llene todos los campos correctamente")
+            setToast("Por favor acepte la autorización de datos para continuar")
         }
+
     }
     return(
         <React.Fragment>
@@ -110,7 +115,7 @@ const SignupCCS: React.FC = ()=>{
             <IonModal isOpen={stateModalData!=""}>
                 <ModalDatatreatment dismissModal={closeModalData}></ModalDatatreatment>
             </IonModal>
-            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={5000}
                       onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>
@@ -143,7 +148,7 @@ const SignupCCS: React.FC = ()=>{
                                 <IonLabel className="texto">
                                     Seleccione el tipo de documento...
                                 </IonLabel>
-                                <IonSegment color="danger" >
+                                <IonSegment color="danger"  ref={tipo_documento}>
                                     <IonSegmentButton value='cedula' >
                                         <IonLabel>Cédula:</IonLabel>
                                     </IonSegmentButton>

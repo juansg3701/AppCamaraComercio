@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import ConfecamarasContext, {
     confecamaras,
-    ConfecamarasContextModel,
+    ConfecamarasContextModel, typeDocument,
     typesProceedings,
     typesQuerys
 } from "./confecamaras";
@@ -743,8 +743,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         let resultado="";
         if(valor.length>0){
             let year=valor[0]+valor[1]+valor[2]+valor[3];
-            let month=valor[4]+valor[5];
-            let day=valor[6]+valor[7];
+            let month=valor[5]+valor[6];
+            let day=valor[8]+valor[9];
             resultado=year+""+month+""+day;
         }else{
             resultado=valor;
@@ -752,13 +752,49 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         return resultado;
     }
 
-    async function solicitarRegistro(identificacion:string, nombre1:string, nombre2:string, apellido1:string,
+    async function solicitarRegistro(tipo_documento: typeDocument, identificacion:string, nombre1:string, nombre2:string, apellido1:string,
                                      apellido2:string, correo:string, celular:string, fecha_nacimiento: string,
                                      fecha_expedicion: string):Promise<string>{
         const fecha_final_nacimiento=arreglarFechaEnviar(fecha_nacimiento)
         const fecha_final_expedicion=arreglarFechaEnviar(fecha_expedicion)
 
-        return "a";
+        let estado="";
+        let  token_p =  await solicitarToken();
+        let tipo_documento_final="";
+        switch (tipo_documento) {
+            case "cedula":
+                tipo_documento_final="1"
+                break;
+            case "nit":
+                tipo_documento_final="2"
+                break;
+        }
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/solicitarRegistro";
+        const json_send={
+            codigoempresa:"35",
+            usuariows:"appccs",
+            token:token_p,
+            tipoidentificacion:tipo_documento_final,
+            identificacion:identificacion,
+            apellido1:apellido1,
+            apellido2:apellido2,
+            nombre1: nombre1,
+            nombre2:nombre2,
+            email:correo,
+            celular:celular,
+            fechanacimiento:fecha_final_nacimiento,
+            fechaexpediciondocumento:fecha_final_expedicion,
+        }
+        await fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(json_send), // data can be `string` or {object}!
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                //console.log('Success:', response)
+                estado=response.codigoerror;
+            });
+        return estado;
     }
 
     const confecamarasContext: ConfecamarasContextModel={

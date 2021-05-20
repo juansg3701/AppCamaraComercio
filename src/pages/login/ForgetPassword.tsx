@@ -18,14 +18,13 @@ import ModalInformation from "../../components/ModalInformation";
 import ConfecamarasContext from "../../data/confecamaras";
 import {useHistory} from "react-router";
 
-const LoginStart: React.FC = ()=>{
+const ForgetPassword: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
     const [toastMsg, setToast]= useState<string>();
     const history= useHistory()
     const openCompleteModal = () => {
-        let message="Apreciado usuario, para renovar una matrícula mercantil o pedir un" +
-            "certificado electrónico es necesario que inicie sesión con la cuenta que posee," +
-            "puede recordar su contraseña o registrarse si es necesario.";
+        let message="Apreciado usuario, puede solicitar una nueva contraseña para iniciar sesión en nuestro sistema." +
+            "Será enviada a su correo electrónico si los datos suministrados son correctos";
         setStateModal(message);
     };
     const closeModal = () => {
@@ -61,7 +60,7 @@ const LoginStart: React.FC = ()=>{
                         break;
                 }
             })
-    }else{
+        }else{
             setToast("Por favor llene todos los campos correctamente")
         }
     }
@@ -76,7 +75,7 @@ const LoginStart: React.FC = ()=>{
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle class="ion-text-left">
-                            <IonRouterLink className="color" href="/process">
+                            <IonRouterLink className="color" href="/login">
                                 <IonIcon color="white"  icon={chevronBack} />  Atras
                             </IonRouterLink>
                         </IonTitle>
@@ -100,7 +99,7 @@ const LoginStart: React.FC = ()=>{
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                 <IonLabel className="titulos">
-                                    Inicio de sesión
+                                    Restaurar contraseña
                                 </IonLabel>
                             </IonCol>
                         </IonRow>
@@ -125,51 +124,16 @@ const LoginStart: React.FC = ()=>{
                                 </IonItem>
                             </IonCol>
                         </IonRow>
-                        <IonRow className="ion-align-items-center">
-                            <IonCol className="ion-text-center" size="12">
-                                <IonItem>
-                                    <IonLabel position='floating'>
-                                        Ingrese el celular...
-                                    </IonLabel>
-                                    <IonInput  type='number' ref={celular_search}></IonInput>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow className="ion-align-items-center">
-                            <IonCol className="ion-text-center" size="12">
-                                <IonItem>
-                                    <IonLabel position='floating'>
-                                        Ingrese la contraseña...
-                                    </IonLabel>
-                                    <IonInput  type='password' ref={clave_search}></IonInput>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
                         <IonCol>
                             <IonRow></IonRow>
                         </IonCol>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                 <IonButton expand='block' fill='outline' onClick={()=>{autenticarUsuario()}}>
-                                    Ingresar
+                                    Restaurar
                                 </IonButton>
                             </IonCol>
                         </IonRow>
-                        <IonRow className="ion-align-items-center">
-                            <IonCol className="ion-text-center" size="6">
-                                <IonRouterLink href="/forgetpassword">
-                                    ¿Olvidaste la contraseña?
-                                </IonRouterLink>
-                            </IonCol>
-                            <IonCol className="ion-text-center" size="6">
-                                <IonRouterLink href="/signup">
-                                    <IonButton expand='block' fill='outline' color='danger'>
-                                        Registrarse
-                                    </IonButton>
-                                </IonRouterLink>
-                            </IonCol>
-                        </IonRow>
-
 
                     </IonGrid>
                 </IonContent>
@@ -178,4 +142,4 @@ const LoginStart: React.FC = ()=>{
 
     );
 };
-export default LoginStart;
+export default ForgetPassword;
