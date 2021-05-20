@@ -49,26 +49,7 @@ const Process: React.FC = ()=>{
                     <IonCol>
                         <IonRow></IonRow>
                     </IonCol>
-                    <IonRow className="ion-align-items-center">
-                        <IonCol className="ion-text-center" size="6">
-                            <IonRouterLink href="/certificate">
-                                <img src="assets/img/certificados.png" height="50" width="50"/>
-                                <br></br>
-                                Certificados electrónicos
-                            </IonRouterLink>
-                        </IonCol>
-                        <IonCol className="ion-text-center" size="6">
-                            <IonRouterLink href="/renovate">
-                                <img src="assets/img/renovacion.png" height="50" width="50"/>
-                                <br></br>
-                                Renovaciones
-                            </IonRouterLink>
-                        </IonCol>
-                    </IonRow>
-                    <IonCol>
-                        <IonRow>
-                        </IonRow>
-                    </IonCol>
+
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="6">
                             <IonRouterLink href="/names">
@@ -84,7 +65,18 @@ const Process: React.FC = ()=>{
                                 Consulta de trámites
                             </IonRouterLink>
                         </IonCol>
-
+                    </IonRow>
+                    <IonCol>
+                        <IonRow></IonRow>
+                    </IonCol>
+                    <IonRow className="ion-align-items-center">
+                        <IonCol className="ion-text-center" size="12">
+                            <IonRouterLink href="/login">
+                                <img src="assets/img/certificados.png" height="50" width="50"/>
+                                <br></br>
+                                Certificados - Renovaciones
+                            </IonRouterLink>
+                        </IonCol>
                     </IonRow>
                 </IonGrid>
             </IonContent>

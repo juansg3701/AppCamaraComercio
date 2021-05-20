@@ -35,6 +35,10 @@ import React from "react";
 import ResultsReceipt from "./pages/Qprocess/ResultsReceipt";
 import ResultsRadicate from "./pages/Qprocess/ResultsRadicate";
 import QueryProceedings from "./pages/certificate/QueryProceedings";
+import LoginStart from "./pages/login/LoginStart";
+import Session from "./pages/login/Session";
+import SignupCCS from "./pages/login/SignupCCS";
+import MessageSuccess from "./pages/login/MessageSuccess";
 const App: React.FC = () => (
   <IonApp>
     <IonContent>
@@ -77,6 +81,18 @@ const App: React.FC = () => (
           <Route exact path='/qprocess'>
             <Qprocess/>
           </Route>
+          <Route exact path='/login'>
+            <LoginStart/>
+          </Route>
+          <Route exact path='/session'>
+            <Session/>
+          </Route>
+          <Route exact path='/signup'>
+            <SignupCCS/>
+          </Route>
+            <Route exact path='/messagesuccess'>
+              <MessageSuccess/>
+            </Route>
 
             <Route exact path='/resultsreceipt'>
               <ResultsReceipt/>

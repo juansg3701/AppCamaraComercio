@@ -16,14 +16,15 @@ import {card} from 'ionicons/icons';
 import React, {useContext} from "react";
 import itemContext from "../data/capacitation";
 import wordpressApi from "../api/wordpressApi";
+import ConfecamarasContext from "../data/confecamaras";
 
 const Home: React.FC = () => {
 
     const itemsCtxt = useContext(itemContext);
+    const itemsCtxt2 = useContext(ConfecamarasContext);
 
-    const prueba=()=>{
-        wordpressApi.encriptado()
-    }
+
+
 
 // @ts-ignore
 // @ts-ignore
@@ -55,7 +56,6 @@ return (
     <IonCol>
         <IonRow></IonRow>
     </IonCol>
-
   <IonRow className="ion-align-items-center">
       <IonCol className="ion-text-center" size="4" >
           <IonRouterLink href="/information">
@@ -64,7 +64,6 @@ return (
               Información
           </IonRouterLink>
       </IonCol>
-      <IonButton onClick={()=>{prueba()}}>Prueba</IonButton>
       <IonCol className="ion-text-center" size="4">
           <IonRouterLink href="/process">
               <img src="assets/img/tramites.png" height="50" width="50"/>

@@ -22,23 +22,31 @@ export interface ConfecamarasContextModel {
     solicitarCertificado:(expediente: expedientes, valor1: number, valor2: number, valor3:number,
                           valor4: number, valor5: number, valor6: number)=>void;
 
-    autenticarUsuarioRegistrado:(identificacion: string, correo: string, clave: string, celular: string)=>void;
+    autenticarUsuarioRegistrado:(identificacion: string, correo: string, clave: string, celular: string)=>Promise<string>;
+    solicitarRegistro:(identificacion:string, nombre1:string, nombre2:string, apellido1:string,
+                       apellido2:string, correo:string, celular:string, fecha_nacimiento: string,
+                       fecha_expedicion: string)=>Promise<string>
 }
 const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
-    token:"",
-    names:[],
-    recibos:<recibos>{},
-    radicados:<radicados>{},
-    expedientes:[],
-    solicitarToken: () => {},
-    consultarNombre:(nombre)=><Promise<nombres[]>>{},
-    consultarTramite:(tipo,valor)=>{},
-    consultarExpediente:(tipo, valor)=>{},
-    solicitarCertificado:(expediente, valor1, valor2, valor3,
-                          valor4,valor5,valor6)=>{},
-
-    autenticarUsuarioRegistrado:(identificacion,correo,clave, celular)=>{}
-
-});
+        token: "",
+        names: [],
+        recibos: <recibos>{},
+        radicados: <radicados>{},
+        expedientes: [],
+        solicitarToken: () => {
+        },
+        consultarNombre: (nombre) => <Promise<nombres[]>>{},
+        consultarTramite: (tipo, valor) => {
+        },
+        consultarExpediente: (tipo, valor) => {
+        },
+        solicitarCertificado: (expediente, valor1, valor2, valor3,
+                               valor4, valor5, valor6) => {
+        },
+        autenticarUsuarioRegistrado: (identificacion, correo, clave, celular) => <Promise<"">>{},
+        solicitarRegistro:(identificacion,nombre1,nombre2,apellido1,apellido2,
+                           correo,celular,fecha_nacimiento,fecha_expedicion)=><Promise<"">>{}
+    }
+);
 
 export default ConfecamarasContext;

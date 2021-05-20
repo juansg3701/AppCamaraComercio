@@ -1,5 +1,9 @@
 import {apiwp} from "./index";
+import Base64 from 'crypto-js/enc-base64';
 import {strategy} from "workbox-streams";
+//import aesjs from 'aes-js';
+//import pkcs7 from 'pkcs7';
+const CryptoJS = require("crypto-js");
 
 export default class wordpressApi {
 
@@ -13,7 +17,7 @@ export default class wordpressApi {
         then((resp)=>resp.data).catch((error)=>error.message);
     }
 
-    static encriptado(){
+    static encriptado(clave){
         /*
         Prueba php
         $action="encrypt";
@@ -33,40 +37,34 @@ $string="texttexttexttext";
         }
         echo $output;
          */
-        /*
-        var aesjs = require("aes-js");
-var base64 = require("js-base64");
-var pkcs7 = require("pkcs7");
 
-var iv = aesjs.utils.utf8.toBytes("1234567890123456");
-var key = aesjs.utils.utf8.toBytes("aaaaaaaaaaaaaaaa");
-var text = aesjs.utils.utf8.toBytes("texttexttexttext");
+        let secret_key = 'c0nf3c4m4r4s';
+        let secret_iv = 'c0nf3c4m4r4s';
+        const dato=clave;
 
-var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
-var encryptedBytes = aesCbc.encrypt(pkcs7.pad(text));
+       let key = CryptoJS.SHA256(secret_key).toString();
+       let iv = CryptoJS.SHA256(secret_iv).toString().substr(0, 16);
 
-var hex = aesjs.utils.hex.fromBytes(encryptedBytes);
-var buf = Buffer.from(hex, 'hex');
+        key = CryptoJS.enc.Utf8.parse(key.substr(0, 32));
+        iv = CryptoJS.enc.Utf8.parse(iv);
 
-console.log(buf.toString('base64'));
-// output: 'rAI8n0cKtwiu1N5hfDWs3rPbz0UmvlbW+LJliYox03c='
+        var encrypted = CryptoJS.AES.encrypt(dato, key, {iv: iv});
 
-         */
-        var aesjs = require("aes-js");
-        var base64 = require("js-base64");
-        var pkcs7 = require("pkcs7");
+        var rawStr = encrypted.toString();
+        var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
+        var base64 = CryptoJS.enc.Base64.stringify(wordArray);
+        console.log(base64);
 
-        var iv = aesjs.utils.utf8.toBytes("1234567890123456");
-        var key = aesjs.utils.utf8.toBytes("aaaaaaaaaaaaaaaa");
-        var text = aesjs.utils.utf8.toBytes("texttexttexttext");
+        return base64;
+        //decrypt base64 es la contraseña encriptada
+        //var parsedWordArray = CryptoJS.enc.Base64.parse(base64);
+        //var parsedStr = parsedWordArray.toString(CryptoJS.enc.Utf8);
+        //console.log("parsed:",parsedStr);
 
-        var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
-        var encryptedBytes = aesCbc.encrypt(pkcs7.pad(text));
-
-        var hex = aesjs.utils.hex.fromBytes(encryptedBytes);
-        var buf = Buffer.from(hex, 'hex');
-
-        console.log(buf.toString('base64'));
+        //desencriptado    https://programmerclick.com/article/75281328671/
+       // let result = CryptoJS.AES.encrypt(message, key);
+        //let base64Result = CryptoJS.enc.Base64.stringify(CryptoJS.DES.decrypt(result, key));
+        //console.log(base64Result);
 
     }
     /*

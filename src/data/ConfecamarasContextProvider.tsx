@@ -23,6 +23,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
     identificacion:"",nombre:"",radicado:"",recibo:"",actoreparto:"",fechaestadofinal:"",fecharadicacion:"",tipotramite:""});
     const [expedientes, setExpedientes] = useState<expedientes[]>([]);
 
+
+
     const solicitarToken= async ()=>{
         let token_p="";
         let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/solicitarToken";
@@ -675,62 +677,88 @@ const ConfecamarasContextProvider: React.FC = (props) => {
                                        valor3: number,valor4: number, valor5: number, valor6: number)=>{
 
     }
-    const encriptarClave=(action: string, secret_key: string, secret_iv: string,string: string)=>{
-        /*
-        let output = false;
-        let encrypt_method = "AES-256-CBC";
-        let key = CryptoJS.HmacSHA256('sha256', secret_key); //en lugar de hash para typescript
-        let iv = string.substr(CryptoJS.HmacSHA256('sha256', secret_iv), 0, 16);
-        if (action == 'encrypt') {
-            output = openssl_encrypt(string, encrypt_method, key, 0, iv);
-            output = base64_encode(output);
-        } else if ($action == 'decrypt') {
-            output = openssl_decrypt(base64_decode(string), encrypt_method, key, 0, iv);
-        }
-        return output;
+    const encriptarClave=(clave:string)=>{
+        const CryptoJS = require("crypto-js");
+        let secret_key = 'c0nf3c4m4r4s';
+        let secret_iv = 'c0nf3c4m4r4s';
+        const dato=clave;
 
-         */
-        /*
-        <?php
-$action="encrypt";
-$secret_key="aaaaaaaaaaaaaaaa";
-$secret_iv="1234567890123456";
-$string="texttexttexttext";
+        let key = CryptoJS.SHA256(secret_key).toString();
+        let iv = CryptoJS.SHA256(secret_iv).toString().substr(0, 16);
 
-        $output = false;
-        $encrypt_method = "AES-256-CBC";
-        $key = hash('sha256', $secret_key);
-        $iv = substr(hash('sha256', $secret_iv), 0, 16);
-        if ($action == 'encrypt') {
-            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
-            $output = base64_encode($output);
-        } else if ($action == 'decrypt') {
-            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
-        }
-        echo $output;
+        key = CryptoJS.enc.Utf8.parse(key.substr(0, 32));
+        iv = CryptoJS.enc.Utf8.parse(iv);
 
-?>
-         */
+        var encrypted = CryptoJS.AES.encrypt(dato, key, {iv: iv});
 
-        var aesjs = require("aes-js");
-        var pkcs7 = require("pkcs7");
+        var rawStr = encrypted.toString();
+        var wordArray = CryptoJS.enc.Utf8.parse(rawStr);
+        var base64 = CryptoJS.enc.Base64.stringify(wordArray);
 
-        let iv = aesjs.utils.utf8.toBytes(secret_iv);
-        let key = aesjs.utils.utf8.toBytes(secret_key);
-        let text = aesjs.utils.utf8.toBytes(string);
-
-        let aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
-        let encryptedBytes = aesCbc.encrypt(pkcs7.pad(text));
-
-        let hex = aesjs.utils.hex.fromBytes(encryptedBytes);
-        let buf = Buffer.from(hex, 'hex');
-
-        console.log(buf.toString('base64'));
-
+        return base64;
 
     }
-    const autenticarUsuarioRegistrado= async (identificacion: string, correo: string, clave: string,celular: string)=>{
+    async function autenticarUsuarioRegistrado(identificacion: string, correo: string, clave: string,celular: string): Promise<string> {
 
+        const clave_encriptada= encriptarClave(clave);
+        let estado="";
+        let  token_p =  await solicitarToken();
+        let nombreusu="";
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/autenticarUsuarioRegistrado";
+        const json_send={
+            codigoempresa:"35",
+            usuariows:"appccs",
+            token:token_p,
+            identificacionusuario:identificacion,
+            emailusuario:correo,
+            celularusuario:celular,
+            claveusuario: clave_encriptada,
+        }
+        await fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(json_send), // data can be `string` or {object}!
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                //console.log('Success:', response)
+                estado=response.codigoerror;
+                nombreusu=response.nombreusuario;
+            });
+        setToken(token_p);
+        const json={
+            token:token_p,
+            identificacionusuario:identificacion,
+            emailusuario:correo,
+            celularusuario:celular,
+            claveusuario: clave_encriptada,
+            nombreusuario:nombreusu,
+        }
+        if(estado=="0000"){
+            window.localStorage.setItem("usuario",JSON.stringify(json));
+        }
+        return estado;
+    }
+
+    const arreglarFechaEnviar=(valor:string)=>{
+        let resultado="";
+        if(valor.length>0){
+            let year=valor[0]+valor[1]+valor[2]+valor[3];
+            let month=valor[4]+valor[5];
+            let day=valor[6]+valor[7];
+            resultado=year+""+month+""+day;
+        }else{
+            resultado=valor;
+        }
+        return resultado;
+    }
+
+    async function solicitarRegistro(identificacion:string, nombre1:string, nombre2:string, apellido1:string,
+                                     apellido2:string, correo:string, celular:string, fecha_nacimiento: string,
+                                     fecha_expedicion: string):Promise<string>{
+        const fecha_final_nacimiento=arreglarFechaEnviar(fecha_nacimiento)
+        const fecha_final_expedicion=arreglarFechaEnviar(fecha_expedicion)
+
+        return "a";
     }
 
     const confecamarasContext: ConfecamarasContextModel={
@@ -745,6 +773,7 @@ $string="texttexttexttext";
         consultarExpediente,
         solicitarCertificado,
         autenticarUsuarioRegistrado,
+        solicitarRegistro
     };
     return(
         <ConfecamarasContext.Provider value={confecamarasContext}>

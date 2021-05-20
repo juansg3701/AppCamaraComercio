@@ -5,7 +5,9 @@ ion-card{
 p{
     color: #0d0d0d;
 }
-
+h3{
+    color: #0d0d0d;
+}
 ion-toolbar {
     --background: #DF0009;
     height: 50px;
@@ -27,6 +29,9 @@ ion-toolbar {
 }
 .emisora{
     border: 1px solid black;
+}
+.texto{
+    color: #3a7be0;
 }
 
 .titulos-busquedas{
