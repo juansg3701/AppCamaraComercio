@@ -31,17 +31,25 @@ const Qprocess: React.FC = ()=>{
         const valor_send= valor_search.current?.value as string;
 
         if(tipo_send && valor_send){
-            await confecamaras.consultarTramite(tipo_send,valor_send);
-            switch (tipo_send) {
-                case "recibo":
-                    //history.replace('/resultsreceipt')
-                    history.push('/resultsreceipt')
-                    break;
-                case "radicado":
-                    //history.replace('/resultsradicate')
-                    history.push('/resultsradicate')
-                    break;
-            }
+            let noResultados= confecamaras.consultarTramite(tipo_send,valor_send);
+
+            noResultados.then(value=>{
+                if(value>0){
+                    switch (tipo_send) {
+                        case "recibo":
+                            //history.replace('/resultsreceipt')
+                            history.push('/resultsreceipt')
+                            break;
+                        case "radicado":
+                            //history.replace('/resultsradicate')
+                            history.push('/resultsradicate')
+                            break;
+                    }
+                }else{
+                    setToast("No hay resultados con estos datos");
+                }
+            })
+
         }else{
             setToast("Por favor llene todos los campos");
         }

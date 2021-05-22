@@ -42,9 +42,16 @@ const Names: React.FC = ()=>{
     const consultaNombres= async ()=>{
         const name_send = name_search.current?.value as string;
         if(name_send){
-            await confecamaras.consultarNombre(name_send);
-            //history.replace('/querynames');
-            history.push('/querynames')
+            let nombres= confecamaras.consultarNombre(name_send);
+            nombres.then(value => {
+                if(value.length>0){
+                    //history.replace('/querynames');
+                    history.push('/querynames')
+                }else{
+                    setToast("No hay resultados con estos datos")
+                }
+            })
+
         }else{
             setToast("Por favor llene todos los campos");
         }

@@ -53,7 +53,7 @@ const Renovate: React.FC = ()=>{
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle class="ion-text-left">
-                            <IonRouterLink className="color" href="/process">
+                            <IonRouterLink className="color" href="/session">
                                 <IonIcon color="white"  icon={chevronBack} />  Atras
                             </IonRouterLink>
                         </IonTitle>
@@ -69,7 +69,7 @@ const Renovate: React.FC = ()=>{
                     <IonGrid>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center">
-                                <IonCard href="/home">
+                                <IonCard href="/session">
                                     <IonImg src="assets/img/logo.jpg"/>
                                 </IonCard>
                             </IonCol>

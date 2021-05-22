@@ -31,9 +31,16 @@ const Certificate: React.FC = ()=>{
         const tipo_send= tipo_search.current?.value as typesProceedings;
         const valor_send= valor_search.current?.value as string;
         if(tipo_send && valor_send){
-                confecamaras.consultarExpediente(tipo_send, valor_send);
-                //history.replace("/queryproceedings")
-                history.push("/queryproceedings")
+              let noExpedientes= confecamaras.consultarExpediente(tipo_send, valor_send);
+              noExpedientes.then(value => {
+                  if(value>0){
+                      //history.replace("/queryproceedings")
+                      history.push("/queryproceedings")
+                  }else{
+                      setToast("No hay expedientes con estos datos")
+                  }
+              })
+
         }else{
             setToast("Por favor llene todos los campos")
         }
@@ -63,7 +70,7 @@ const Certificate: React.FC = ()=>{
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle class="ion-text-left">
-                            <IonRouterLink className="color" href="/process">
+                            <IonRouterLink className="color" href="/session">
                                 <IonIcon color="white"  icon={chevronBack} />  Atras
                             </IonRouterLink>
                         </IonTitle>
@@ -79,7 +86,7 @@ const Certificate: React.FC = ()=>{
                     <IonGrid>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center">
-                                <IonCard href="/home">
+                                <IonCard href="/session">
                                     <IonImg src="assets/img/logo.jpg"/>
                                 </IonCard>
                             </IonCol>

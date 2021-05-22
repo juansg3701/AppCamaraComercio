@@ -13,7 +13,7 @@ import {
     IonLabel, IonButton, IonFab, IonFabButton
 } from "@ionic/react";
 import  '../Home.css';
-import {chevronBack, informationCircle, logOut} from 'ionicons/icons';
+import {chevronBack, informationCircle, logIn, logOut} from 'ionicons/icons';
 import {useHistory} from "react-router";
 
 const Session: React.FC = ()=>{
@@ -28,7 +28,7 @@ const Session: React.FC = ()=>{
             <IonHeader>
                 <IonToolbar>
                     <IonTitle class="ion-text-left">
-                        <IonRouterLink className="color" href="/process">
+                        <IonRouterLink className="color" onClick={()=>{cerrarsesion()}}>
                             <IonIcon color="white"  icon={chevronBack} />  Atras
                         </IonRouterLink>
                     </IonTitle>
@@ -36,9 +36,15 @@ const Session: React.FC = ()=>{
             </IonHeader>
             <IonContent fullscreen>
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                    <IonFabButton onClick={()=>{cerrarsesion()}}>
-                        <IonIcon icon={logOut} />
-                    </IonFabButton>
+                    { window.localStorage.length>0?
+                        <IonFabButton onClick={()=>{cerrarsesion()}}>
+                            <IonIcon icon={logOut} />
+                        </IonFabButton>:
+                        <IonFabButton href="/login">
+                                <IonIcon icon={logIn} />
+                        </IonFabButton>
+                    }
+
                 </IonFab>
                 <IonGrid>
                     <IonRow className="ion-align-items-center">
@@ -66,7 +72,10 @@ const Session: React.FC = ()=>{
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="12">
                             <IonLabel className="titulos">
-                                {(JSON.parse(window.localStorage.getItem("usuario") as string)).nombreusuario}
+                                { window.localStorage.length>0?
+                                    (JSON.parse(window.localStorage.getItem("usuario") as string)).nombreusuario
+                                    : <IonLabel>No ha iniciado sesión </IonLabel>
+                                }
                             </IonLabel>
                         </IonCol>
                     </IonRow>
@@ -75,11 +84,18 @@ const Session: React.FC = ()=>{
                     </IonCol>
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="12">
-                            <IonRouterLink href="/certificate">
-                                <img src="assets/img/certificados.png" height="50" width="50"/>
-                                <br></br>
-                                Certificados electrónicos
-                            </IonRouterLink>
+                            { window.localStorage.length>0?
+                                <IonRouterLink href="/certificate">
+                                    <img src="assets/img/certificados.png" height="50" width="50"/>
+                                    <br></br>
+                                    Certificados electrónicos
+                                </IonRouterLink>
+                                :<IonRouterLink>
+                                    <img src="assets/img/certificados.png" height="50" width="50"/>
+                                    <br></br>
+                                    Certificados electrónicos
+                                </IonRouterLink>
+                            }
                         </IonCol>
                     </IonRow>
                         <IonCol>
@@ -87,11 +103,18 @@ const Session: React.FC = ()=>{
                         </IonCol>
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="12">
-                            <IonRouterLink href="/renovate">
-                                <img src="assets/img/renovacion.png" height="50" width="50"/>
-                                <br></br>
-                                Renovaciones
-                            </IonRouterLink>
+                            { window.localStorage.length>0?
+                                <IonRouterLink href="/renovate">
+                                    <img src="assets/img/renovacion.png" height="50" width="50"/>
+                                    <br></br>
+                                    Renovaciones
+                                </IonRouterLink>: <IonRouterLink >
+                                    <img src="assets/img/renovacion.png" height="50" width="50"/>
+                                    <br></br>
+                                    Renovaciones
+                                </IonRouterLink>
+                            }
+
                         </IonCol>
                     </IonRow>
                 </IonGrid>

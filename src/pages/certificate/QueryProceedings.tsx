@@ -22,13 +22,13 @@ const QueryProceedings: React.FC=()=>{
     const confecamaras = useContext(ConfecamarasContext);
     const history = useHistory()
     const [expedientesF,setExpedientesF]= useState<expedientes>({matricula:"",identificación:"",nit:"",emailcom:"",idclase:""
-        ,estadomatricula:"",nombre:"",certificados:[]})
+        ,estadomatricula:"",nombre:"",certificados:[], direccion:"",municipio:"",telcom1:""})
     const firstCertficate=(expediente: expedientes)=>{
         setExpedientesF(expediente);
     };
     const closeModal=()=>{
         let prueba_expedientes: expedientes={matricula:"",identificación:"",nit:"",emailcom:"",idclase:""
-        ,estadomatricula:"",nombre:"",certificados:[]};
+        ,estadomatricula:"",nombre:"",certificados:[],direccion:"",municipio:"",telcom1:""};
         setExpedientesF(prueba_expedientes)
     };
 
@@ -51,7 +51,7 @@ const QueryProceedings: React.FC=()=>{
                     <IonGrid>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center">
-                                <IonCard href="/home">
+                                <IonCard href="/session">
                                     <IonImg src="assets/img/logo.jpg"/>
                                 </IonCard>
                             </IonCol>

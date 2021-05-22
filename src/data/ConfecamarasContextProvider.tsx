@@ -562,7 +562,9 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         return cadena_final;
     }
 
-    const consultarTramite= async (tipo:typesQuerys, valor:string)=>{
+   // const consultarTramite= async (tipo:typesQuerys, valor:string)=>{
+    async function consultarTramite(tipo:typesQuerys, valor:string): Promise<number>{
+        let noResultados=0;
         let token_p = await solicitarToken();
         let radicados_a:radicados={estadofinal:"",
             identificacion:"",nombre:"",radicado:"",recibo:"",actoreparto:"",fechaestadofinal:"",fecharadicacion:"",tipotramite:""};
@@ -593,7 +595,7 @@ const ConfecamarasContextProvider: React.FC = (props) => {
                 radicados_a.fecharadicacion=transformarFecha(radicados_a.fecharadicacion);
                 radicados_a.fechaestadofinal=transformarFecha(radicados_a.fechaestadofinal);
                 setRadicados(radicados_a)
-
+                radicados_a.identificacion!=""?noResultados=1:noResultados=0;
                 break;
             case "recibo":
                 let url_r="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/consultarRecibo";
@@ -617,45 +619,48 @@ const ConfecamarasContextProvider: React.FC = (props) => {
                     recibos_a.imagenes[i].fechadocumento=transformarFecha(recibos_a.imagenes[i].fechadocumento);
                 }
                 setRecibos(recibos_a)
+                recibos_a.identificacion!=""?noResultados=1:noResultados=0;
                 break;
         }
-
+        return noResultados;
     }
 
-    const consultarExpediente= async (tipo:typesProceedings, valor: string)=>{
+    // const consultarExpediente= async (tipo:typesProceedings, valor: string) => {
+    async function consultarExpediente(tipo:typesProceedings, valor: string): Promise<number>{
+        let noExpedientes=0;
         let token_p = await solicitarToken();
         let expendientes_p:expedientes[]=[];
         let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/busquedaExpedientes";
         let json_send={};
-        switch (tipo) {
-            case "identificacion":
-                json_send={
-                    codigoempresa:"35",
-                    usuariows:"appccs",
-                    token:token_p,
-                    identificacion:valor,
-                    semilla:0
-                }
-                break;
-            case "matricula":
-                json_send={
-                    codigoempresa:"35",
-                    usuariows:"appccs",
-                    token:token_p,
-                    matriculainicial:valor,
-                    semilla:0
-                }
-                break;
-            case "nombre":
-                json_send={
-                    codigoempresa:"35",
-                    usuariows:"appccs",
-                    token:token_p,
-                    nombreinicial:valor,
-                    semilla:0
-                }
-                break;
-        }
+    switch (tipo) {
+        case "identificacion":
+            json_send={
+                codigoempresa:"35",
+                usuariows:"appccs",
+                token:token_p,
+                identificacion:valor,
+                semilla:0
+            }
+            break;
+        case "matricula":
+            json_send={
+                codigoempresa:"35",
+                usuariows:"appccs",
+                token:token_p,
+                matriculainicial:valor,
+                semilla:0
+            }
+            break;
+        case "nombre":
+            json_send={
+                codigoempresa:"35",
+                usuariows:"appccs",
+                token:token_p,
+                nombreinicial:valor,
+                semilla:0
+            }
+            break;
+    }
         await fetch(url, {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(json_send), // data can be `string` or {object}!
@@ -669,8 +674,9 @@ const ConfecamarasContextProvider: React.FC = (props) => {
             expendientes_p[i].estadomatricula=consultaEstadoExpediente(expendientes_p[i].estadomatricula);
             expendientes_p[i].idclase=consultaTipoDocumento(expendientes_p[i].idclase);
         }
-
+        noExpedientes=expendientes_p.length;
         setExpedientes(expendientes_p);
+        return noExpedientes;
     }
 
     const solicitarCertificado= async (expediente: expedientes, valor1: number, valor2: number,
@@ -818,6 +824,29 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         estado=response.codigoerror;
     });
         return estado;
+    }
+
+    const consultarExpedienteMercantil= async (valor: string)=>{
+        let estado="";
+        let  token_p = JSON.parse(window.localStorage.getItem("usuario") as string).token;
+
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/restaurarClaveRegistro";
+        const json_send={
+            codigoempresa:"35",
+            usuariows:"appccs",
+            token:token_p,
+            identificacion:valor,
+            tipo:"A",
+        }
+        await fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(json_send), // data can be `string` or {object}!
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                //console.log('Success:', response)
+                estado=response.codigoerror;
+            });
     }
     const confecamarasContext: ConfecamarasContextModel={
         token,
