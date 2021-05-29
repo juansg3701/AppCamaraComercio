@@ -8,7 +8,7 @@ import ConfecamarasContext, {
 import {nombres} from "./nombres";
 import {radicados} from "./radicados";
 import {recibos} from "./recibos";
-import {expedientes} from "./expedientes";
+import {certificadoConsultaExpedienteMercantil, expedientes, serviciosReportarTransaccion} from "./expedientes";
 //import CryptoJS from 'crypto-js';
 
 
@@ -829,8 +829,10 @@ const ConfecamarasContextProvider: React.FC = (props) => {
     const consultarExpedienteMercantil= async (valor: string)=>{
         let estado="";
         let  token_p = JSON.parse(window.localStorage.getItem("usuario") as string).token;
+        let expedientes:certificadoConsultaExpedienteMercantil={apellido1:"",apellido2:"",idclase:"",matricula:""
+        ,nombre:"",nombre1:"",nombre2:"",tamanoempresa:""};
 
-        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/restaurarClaveRegistro";
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/consultarExpedienteMercantil";
         const json_send={
             codigoempresa:"35",
             usuariows:"appccs",
@@ -845,8 +847,221 @@ const ConfecamarasContextProvider: React.FC = (props) => {
             .catch(error => console.error('Error:', error))
             .then(response => {
                 //console.log('Success:', response)
-                estado=response.codigoerror;
+                expedientes=response.codigoerror;
             });
+        return expedientes;
+    }
+    async function reportarTransaccion(expediente: expedientes,valor1: number, valor2: number,
+                                       valor3: number,valor4: number, valor5: number, valor6: number): Promise<string>{
+        const consultaExpediente = await consultarExpedienteMercantil(expediente.identificacion);
+        let estado="";
+        let tipoIdentificacion=expediente.idclase;
+        tipoIdentificacion!="1" && tipoIdentificacion!="2"?tipoIdentificacion="2":tipoIdentificacion=tipoIdentificacion;
+
+        let celular_cliente= JSON.parse(window.localStorage.getItem("usuario") as string).celularusuario;
+        let  token_p = JSON.parse(window.localStorage.getItem("usuario") as string).token;
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/reportarTransaccion";
+        let email_control=JSON.parse(window.localStorage.getItem("usuario") as string).emailusuario;
+        let nombre_control=JSON.parse(window.localStorage.getItem("usuario") as string).nombreusuario;
+        let identificacion_control=JSON.parse(window.localStorage.getItem("usuario") as string).identificacionusuario;
+        let celular_control=JSON.parse(window.localStorage.getItem("usuario") as string).celularusuario;
+        let json_send={};
+        let valor_total_servicios=0;
+        let servicios_reporte:serviciosReportarTransaccion[]=[];
+        let hoy = new Date();
+        let ano_base = hoy.getFullYear();
+        let identificacion_no="";
+        if(expediente.identificacion==undefined){
+            identificacion_no=expediente.nit;
+        }else{
+            identificacion_no=expediente.identificacion;
+        }
+
+
+            expediente.certificados.map(value => {
+                {
+                    if(valor1>0 && value.tipocertificado=="CerMat"){
+                        valor_total_servicios=valor_total_servicios+value.valor;
+                        servicios_reporte.push({idservicio:value.servicio,
+                            anobase:ano_base.toString(),
+                            base:0,
+                            cantidad:valor1,
+                            detallecertespecial:"",
+                            identificacioncertespecial:"",
+                            matricula:expediente.matricula,
+                            nombrecertespecial:"",
+                            porcentaje:0,
+                            proponente:expediente.proponente,
+                            tipocertespecial:"",
+                            tipolibro:"",
+                            valorservicio:value.valor
+                        })
+                    }
+                    if(valor2>0 && value.tipocertificado=="CerExi"){
+                        valor_total_servicios=valor_total_servicios+value.valor;
+                        servicios_reporte.push({idservicio:value.servicio,
+                            anobase:ano_base.toString(),
+                            base:0,
+                            cantidad:valor2,
+                            detallecertespecial:"",
+                            identificacioncertespecial:"",
+                            matricula:expediente.matricula,
+                            nombrecertespecial:"",
+                            porcentaje:0,
+                            proponente:expediente.proponente,
+                            tipocertespecial:"",
+                            tipolibro:"",
+                            valorservicio:value.valor
+                        })
+                    }
+                    if(valor3>0 && value.tipocertificado=="CerEsadl"){
+                        valor_total_servicios=valor_total_servicios+value.valor;
+                        servicios_reporte.push({idservicio:value.servicio,
+                            anobase:ano_base.toString(),
+                            base:0,
+                            cantidad:valor3,
+                            detallecertespecial:"",
+                            identificacioncertespecial:"",
+                            matricula:expediente.matricula,
+                            nombrecertespecial:"",
+                            porcentaje:0,
+                            proponente:expediente.proponente,
+                            tipocertespecial:"",
+                            tipolibro:"",
+                            valorservicio:value.valor
+                        })
+                    }
+                    if(valor4>0 && value.tipocertificado=="CerLibRegMer"){
+                        valor_total_servicios=valor_total_servicios+value.valor;
+                        servicios_reporte.push({idservicio:value.servicio,
+                            anobase:ano_base.toString(),
+                            base:0,
+                            cantidad:valor4,
+                            detallecertespecial:"",
+                            identificacioncertespecial:"",
+                            matricula:expediente.matricula,
+                            nombrecertespecial:"",
+                            porcentaje:0,
+                            proponente:expediente.proponente,
+                            tipocertespecial:"",
+                            tipolibro:"",
+                            valorservicio:value.valor
+                        })
+                    }
+                    if(valor5>0 && value.tipocertificado=="CerLibRegEsadl"){
+                        valor_total_servicios=valor_total_servicios+value.valor;
+                        servicios_reporte.push({idservicio:value.servicio,
+                            anobase:ano_base.toString(),
+                            base:0,
+                            cantidad:valor5,
+                            detallecertespecial:"",
+                            identificacioncertespecial:"",
+                            matricula:expediente.matricula,
+                            nombrecertespecial:"",
+                            porcentaje:0,
+                            proponente:expediente.proponente,
+                            tipocertespecial:"",
+                            tipolibro:"",
+                            valorservicio:value.valor
+                        })
+                    }
+                    if(valor6>0 && value.tipocertificado=="CerPro"){
+                        valor_total_servicios=valor_total_servicios+value.valor;
+                        servicios_reporte.push({idservicio:value.servicio,
+                            anobase:ano_base.toString(),
+                            base:0,
+                            cantidad:valor6,
+                            detallecertespecial:"",
+                            identificacioncertespecial:"",
+                            matricula:expediente.matricula,
+                            nombrecertespecial:"",
+                            porcentaje:0,
+                            proponente:expediente.proponente,
+                            tipocertespecial:"",
+                            tipolibro:"",
+                            valorservicio:value.valor
+                        })
+                    }
+                }
+            })
+
+        switch (parseInt(tipoIdentificacion)) {
+            case 1:
+                json_send={
+                    codigoempresa:"35",
+                    usuariows:"appccs",
+                    token:token_p,
+                    operador: "USUPUBXX",
+                    emailcontrol:email_control,
+                    identificacioncontrol:identificacion_control,
+                    nombrecontrol:nombre_control,
+                    celularcontrol:celular_control,
+                    codificacionservicios:"S",
+                    tipoidentificacioncliente:tipoIdentificacion,
+                    identificacioncliente:identificacion_no,
+                    nombre1cliente:consultaExpediente.nombre1,
+                    nombre2cliente:consultaExpediente.nombre2,
+                    apellido1cliente:consultaExpediente.apellido1,
+                    apellido2cliente:consultaExpediente.apellido2,
+                    emailcliente:expediente.emailcom,
+                    direccioncliente:expediente.direccion,
+                    telefonocliente:expediente.telcom1,
+                    celularcliente:celular_cliente,
+                    municipiocliente:expediente.municipio,
+                    valorbruto:valor_total_servicios,
+                    valorbaseiva:0,
+                    valoriva:0,
+                    valortotal:valor_total_servicios,
+                    tipotramite:"certificadosvirtuales",
+                    subtipotramite:"",
+                    proyecto:"1",
+                    tamanoempresarial957:consultaExpediente.tamanoempresa,
+                    servicios:servicios_reporte
+                }
+                break;
+            case 2:
+                json_send={
+                    codigoempresa:"35",
+                    usuariows:"appccs",
+                    token:token_p,
+                    operador: "USUPUBXX",
+                    emailcontrol:email_control,
+                    identificacioncontrol:identificacion_control,
+                    nombrecontrol:nombre_control,
+                    celularcontrol:celular_control,
+                    codificacionservicios:"S",
+                    tipoidentificacioncliente:tipoIdentificacion,
+                    identificacioncliente:identificacion_no,
+                    razonsocialcliente:expediente.nombre,
+                    emailcliente:expediente.emailcom,
+                    direccioncliente:expediente.direccion,
+                    telefonocliente:expediente.telcom1,
+                    celularcliente:celular_cliente,
+                    municipiocliente:expediente.municipio,
+                    valorbruto:valor_total_servicios,
+                    valorbaseiva:0,
+                    valoriva:0,
+                    valortotal:valor_total_servicios,
+                    tipotramite:"certificadosvirtuales",
+                    subtipotramite:"",
+                    proyecto:"1",
+                    tamanoempresarial957:consultaExpediente.tamanoempresa,
+                    servicios:servicios_reporte
+                }
+                break;
+        }
+        //console.log(json_send);
+
+        await fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(json_send), // data can be `string` or {object}!
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+                console.log('Success:', response.urlparapago)
+                //expedientes=response.codigoerror;
+            });
+        return "a";
     }
     const confecamarasContext: ConfecamarasContextModel={
         token,
@@ -861,7 +1076,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         solicitarCertificado,
         autenticarUsuarioRegistrado,
         solicitarRegistro,
-        restaurarClaveRegistro
+        restaurarClaveRegistro,
+        reportarTransaccion
     };
     return(
         <ConfecamarasContext.Provider value={confecamarasContext}>

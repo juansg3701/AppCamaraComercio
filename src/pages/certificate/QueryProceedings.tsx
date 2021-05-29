@@ -21,14 +21,14 @@ import {expedientes} from "../../data/expedientes";
 const QueryProceedings: React.FC=()=>{
     const confecamaras = useContext(ConfecamarasContext);
     const history = useHistory()
-    const [expedientesF,setExpedientesF]= useState<expedientes>({matricula:"",identificación:"",nit:"",emailcom:"",idclase:""
-        ,estadomatricula:"",nombre:"",certificados:[], direccion:"",municipio:"",telcom1:""})
+    const [expedientesF,setExpedientesF]= useState<expedientes>({matricula:"",identificacion:"",nit:"",emailcom:"",idclase:""
+        ,estadomatricula:"",nombre:"",certificados:[], direccion:"",municipio:"",telcom1:"",proponente:"" })
     const firstCertficate=(expediente: expedientes)=>{
         setExpedientesF(expediente);
     };
     const closeModal=()=>{
-        let prueba_expedientes: expedientes={matricula:"",identificación:"",nit:"",emailcom:"",idclase:""
-        ,estadomatricula:"",nombre:"",certificados:[],direccion:"",municipio:"",telcom1:""};
+        let prueba_expedientes: expedientes={matricula:"",identificacion:"",nit:"",emailcom:"",idclase:""
+        ,estadomatricula:"",nombre:"",certificados:[],direccion:"",municipio:"",telcom1:"",proponente:""};
         setExpedientesF(prueba_expedientes)
     };
 
@@ -74,7 +74,7 @@ const QueryProceedings: React.FC=()=>{
                                             <IonCol size="12" className="ion-text-left">
                                                 <b> Mátricula: </b>{item.matricula} <br/>
                                                 <b>Tipo identificación:</b>  {item.idclase} <br/>
-                                                <b> Identificación:</b> {item.identificación} <br/>
+                                                <b> Identificación:</b> {item.identificacion} <br/>
                                                 <b>Nit:</b>  {item.nit} <br/>
                                                 <b>Estado mátricula:</b>  {item.estadomatricula} <br/>
                                                 {/*

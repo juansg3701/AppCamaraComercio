@@ -23,9 +23,6 @@ const Home: React.FC = () => {
     const itemsCtxt = useContext(itemContext);
     const itemsCtxt2 = useContext(ConfecamarasContext);
 
-
-
-
 // @ts-ignore
 // @ts-ignore
 return (
@@ -93,22 +90,29 @@ return (
           </IonLabel>
       </IonCol>
       {/*  -   {posts.length} -*/}
+      {itemsCtxt.capacitation!=undefined?
+          itemsCtxt.capacitation.map((item,key) => (
 
-  {itemsCtxt.capacitation.map((item,key) => (
+                  <IonCard className={card}>
+                      <IonRow key={key} className="ion-align-items-center">
+                          <IonRouterLink href={item.link}>
+                              <IonCol className="ion-text-center" size="4">
+                                  <IonImg src={item.featured_media}/>
+                              </IonCol>
+                              <IonCol size="8">
+                                  {item.title.rendered}
+                              </IonCol>
+                          </IonRouterLink>
+                      </IonRow>
+                  </IonCard>
+          )): <IonCol size="12" className="ion-text-center">
+              <IonLabel className="titulos-busquedas">
+                  No hay publicaciones
+              </IonLabel>
+          </IonCol>
 
-      <IonCard className={card}>
-      <IonRow key={key} className="ion-align-items-center">
-          <IonRouterLink href={item.link}>
-              <IonCol className="ion-text-center" size="4">
-                  <IonImg src={item.featured_media}/>
-              </IonCol>
-              <IonCol size="8">
-                  {item.title.rendered}
-              </IonCol>
-          </IonRouterLink>
-      </IonRow>
-      </IonCard>
-  ))}
+      }
+
   </IonRow>
 
 </IonGrid>

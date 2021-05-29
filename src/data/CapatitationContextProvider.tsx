@@ -24,21 +24,25 @@ const CapatitationContextProvider: React.FC = (props) => {
                 console.log('Success:', response)
                 capacitation_p=response;
             });
-        for (let i=0;i<capacitation_p.length;i++) {
-            if (capacitation_p[i].featured_media != "0") {
-                const images =await fetch("https://camarasogamoso.org/wp-json/wp/v2/media/" + capacitation_p[i].featured_media)
-                    .then(rest => rest.json()).then(
-                        (result) => {
-                            if(result.status==undefined){
-                                capacitation_p[i].featured_media = "assets/img/logo.jpg";
-                            }else{
-                            capacitation_p[i].featured_media = result.guid.rendered;
-                                 }
-                        })
-            }else{
-                capacitation_p[i].featured_media = "assets/img/logo.jpg";
+        //console.log("capacitation: "+ capacitation_p)
+        if(capacitation_p!=undefined){
+            for (let i=0;i<capacitation_p.length;i++) {
+                if (capacitation_p[i].featured_media != "0") {
+                    const images =await fetch("https://camarasogamoso.org/wp-json/wp/v2/media/" + capacitation_p[i].featured_media)
+                        .then(rest => rest.json()).then(
+                            (result) => {
+                                if(result.status==undefined){
+                                    capacitation_p[i].featured_media = "assets/img/logo.jpg";
+                                }else{
+                                    capacitation_p[i].featured_media = result.guid.rendered;
+                                }
+                            })
+                }else{
+                    capacitation_p[i].featured_media = "assets/img/logo.jpg";
+                }
             }
         }
+
         setCapacitations(capacitation_p)
     }
 

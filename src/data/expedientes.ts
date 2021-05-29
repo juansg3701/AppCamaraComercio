@@ -9,7 +9,7 @@ export interface expedientes {
     matricula: string,
     nombre: string,
     idclase: string,
-    identificación: string,
+    identificacion: string,
     nit: string,
     estadomatricula: string,
     emailcom: string,
@@ -28,5 +28,22 @@ export interface certificadoConsultaExpedienteMercantil {
     apellido2: string,
     idclase:string,
     tamanoempresa: string,
+
+}
+
+export interface serviciosReportarTransaccion {
+    idservicio: string,
+    matricula: string,
+    proponente: string,
+    cantidad: number,
+    base: number,
+    porcentaje: number;
+    valorservicio: number,
+    anobase: string,
+    tipolibro: string,
+    tipocertespecial: string
+    nombrecertespecial: string,
+    identificacioncertespecial: string,
+    detallecertespecial: string
 
 }

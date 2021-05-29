@@ -41,7 +41,7 @@ const ModalFirstCertificate: React.FC<modalFisrtCertificate> = (props) => {
         const valor6_send= valor6_search.current?.value as number;
 
         if(valor1_send>0){
-            confecamaras.solicitarCertificado(props.expediente, valor1_send,valor2_send,
+            confecamaras.reportarTransaccion(props.expediente, valor1_send,valor2_send,
                 valor3_send, valor4_send, valor5_send, valor6_send);
             props.dismissModal();
         }else{
