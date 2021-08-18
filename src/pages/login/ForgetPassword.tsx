@@ -65,7 +65,7 @@ const ForgetPassword: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+            <IonToast isOpen={!!toastMsg} message={toastMsg} color="warning"  duration={3000}
                       onDidDismiss={()=>{setToast("")}}/>
             <IonPage>
                 <IonHeader>

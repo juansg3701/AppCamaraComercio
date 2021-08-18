@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import CapacitationContext, {capacitation, CapacitationContextModel} from './capacitation';
 import {apiwp} from "../api";
 
+
 const CapatitationContextProvider: React.FC = (props) => {
 
     const [capacitation, setCapacitations] = useState<capacitation[]>([]);
@@ -12,9 +13,16 @@ const CapatitationContextProvider: React.FC = (props) => {
 
 
     const obtenerDatos=async ()=>{
-        let capacitation_p:capacitation[]=[];
-        let url="https://camarasogamoso.org/wp-json/wp/v2/posts?categories=44";
+        //prueba bd
 
+
+
+        //fin prueba bd
+
+        //código conexión con api
+        let capacitation_p:capacitation[]=[];
+        //let url="https://camarasogamoso.org/wp-json/wp/v2/posts?categories=44";
+        let url="https://camarasogamoso.org/wp-json/wp/v2/posts";
 
         await fetch(url, {
             method: 'GET',

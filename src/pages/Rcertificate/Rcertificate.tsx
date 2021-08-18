@@ -1,92 +1,73 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {
     IonCard,
-    IonCol,
-    IonContent,
+    IonCol, IonContent,
     IonGrid,
     IonHeader,
     IonIcon,
     IonImg,
-    IonPage,
-    IonRouterLink,
+    IonPage, IonRouterLink,
     IonRow,
     IonTitle,
     IonToolbar,
-    IonLabel,
-    IonSegment,
-    IonSegmentButton,
-    IonInput,
-    IonItem,
-    IonButton,
-    IonFab,
-    IonFabButton,
-    IonModal,
-    IonRouterOutlet, IonToast
+    IonLabel, IonSegment, IonSegmentButton, IonInput, IonItem, IonButton, IonFab, IonFabButton, IonModal, IonToast
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
-import ConfecamarasContext from "../../data/confecamaras";
-import {IonReactRouter} from "@ionic/react-router";
-import Qprocess from "../Qprocess/Qprocess";
-import {Route, useHistory} from "react-router-dom";
-import QueryNames from "./QueryNames";
-import {nombres} from "../../data/nombres";
+import ConfecamarasContext, {typesProceedings, typesQuerys} from "../../data/confecamaras";
+import {useHistory} from "react-router";
 
-const Names: React.FC = ()=>{
+const Rcertificate: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
     const confecamaras = useContext(ConfecamarasContext);
-    const history = useHistory();
-    const [toastMsg,setToast]= useState<string>();
-    const [toastMsg_2,setToast_2]= useState<string>();
-    const name_search = useRef<HTMLIonInputElement>(null);
-    const consultaNombres= async ()=>{
-        const name_send = name_search.current?.value as string;
-        if(name_send){
+    const valor_search= useRef<HTMLIonInputElement>(null);
+    const [toastMsg, setToast] = useState<string>();
+    const [toastMsg_2, setToast_2] = useState<string>();
+    const history= useHistory()
+
+    const consultarTramite= async ()=>{
+        const valor_send= valor_search.current?.value as string;
+        if(valor_send){
             setToast("Consultando, por favor espere...");
-            let nombres= confecamaras.consultarNombre(name_send);
-            nombres.then(value => {
-                if(value.length>0){
-                    //history.replace('/querynames');
-                    history.push('/querynames')
+            let noExpedientes= confecamaras.consultarCertificadoRecuperacion(valor_send);
+
+            noExpedientes.then(value => {
+                if(value=="0000"){
+
+                    history.push('/recuperatecertificate')
                 }else{
-                    setToast_2("No hay resultados con estos datos")
+                    setToast_2("No se encontró el certificado")
                 }
             })
-
         }else{
-            setToast("Por favor llene todos los campos");
+            setToast("Por favor llene todos los campos")
         }
-
     }
     const openCompleteModal = () => {
-        let message="A continuación, por favor defina " +
-            "cual es el nombre para su empresa/negocio, " +
-            "luego consulte que esté disponible y no lo " +
-            "tenga ninguna otra compañía dentro del territorio " +
-            "nacional.";
+        let message="Con el número de recuperación y liquidación del certificado puede saber "+
+        "el estado sobre el pago de su certificado y volver a generar el enlace si es necesario";
         setStateModal(message);
     };
     const closeModal = () => {
         setStateModal("");
     };
+
     return(
         <React.Fragment>
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-
-            <IonToast isOpen={!!toastMsg} message={toastMsg} position="bottom" duration={3000}
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
                       onDidDismiss={()=>{setToast("")}}/>
             <IonToast isOpen={!!toastMsg_2} message={toastMsg_2} color="warning" position="middle" duration={3000}
                       onDidDismiss={()=>{setToast_2("")}}/>
-
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle class="ion-text-left">
-                            <IonRouterLink className="color" href="/process">
-                                <IonIcon color="white"  icon={chevronBack} />  Atras
+                            <IonRouterLink className="color" href="/session">
+                                <IonIcon color="white"  icon={chevronBack} />  Atrás
                             </IonRouterLink>
                         </IonTitle>
                     </IonToolbar>
@@ -101,7 +82,7 @@ const Names: React.FC = ()=>{
                     <IonGrid>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center">
-                                <IonCard href="/home">
+                                <IonCard href="/session">
                                     <IonImg src="assets/img/logo.jpg"/>
                                 </IonCard>
                             </IonCol>
@@ -109,20 +90,18 @@ const Names: React.FC = ()=>{
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                 <IonLabel className="titulos">
-                                    Consulta de nombres
+                                    Recuperación de certificado
                                 </IonLabel>
                             </IonCol>
                         </IonRow>
-                        <IonCol>
-                            <IonRow></IonRow>
-                        </IonCol>
+
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
                                 <IonItem>
                                     <IonLabel position='floating'>
-                                        Ingrese el nombre...
+                                        Ingrese el valor...
                                     </IonLabel>
-                                    <IonInput ref={name_search} type='text'></IonInput>
+                                    <IonInput  type='text' ref={valor_search}></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
@@ -131,7 +110,7 @@ const Names: React.FC = ()=>{
                         </IonCol>
                         <IonRow className="ion-align-items-center">
                             <IonCol className="ion-text-center" size="12">
-                                <IonButton expand='block' fill='outline' onClick={()=>{consultaNombres()}}>
+                                <IonButton expand='block' fill='outline' onClick={()=>{consultarTramite()}}>
                                     Consultar
                                 </IonButton>
                             </IonCol>
@@ -144,4 +123,4 @@ const Names: React.FC = ()=>{
 
     );
 };
-export default Names;
+export default Rcertificate;

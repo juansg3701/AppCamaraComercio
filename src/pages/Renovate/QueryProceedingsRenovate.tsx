@@ -15,10 +15,10 @@ import {
 import ConfecamarasContext from "../../data/confecamaras";
 import {card, chevronBack} from "ionicons/icons";
 import {useHistory} from "react-router";
-import ModalFirstCertificate from "../../components/ModalFisrtCertificate";
 import {expedientes} from "../../data/expedientes";
+import ModalRenovate from "../../components/ModalRenovate";
 
-const QueryProceedings: React.FC=()=>{
+const QueryProceedingsRenovate: React.FC=()=>{
     const confecamaras = useContext(ConfecamarasContext);
     const history = useHistory()
     const [expedientesF,setExpedientesF]= useState<expedientes>({matricula:"",identificacion:"",nit:"",emailcom:"",idclase:""
@@ -28,23 +28,21 @@ const QueryProceedings: React.FC=()=>{
     };
     const closeModal=()=>{
         let prueba_expedientes: expedientes={matricula:"",identificacion:"",nit:"",emailcom:"",idclase:""
-        ,estadomatricula:"",nombre:"",certificados:[],direccion:"",municipio:"",telcom1:"",proponente:""};
+            ,estadomatricula:"",nombre:"",certificados:[],direccion:"",municipio:"",telcom1:"",proponente:""};
         setExpedientesF(prueba_expedientes)
     };
-    const recuperar_certificado=()=>{
-        history.replace('/rcertificate');
-    }
+
     return(
         <React.Fragment>
             <IonModal isOpen={expedientesF?.matricula!=""}>
-                <ModalFirstCertificate expediente={expedientesF as expedientes} dismissModal={closeModal}/>
+                <ModalRenovate expediente={expedientesF as expedientes} dismissModal={closeModal}/>
             </IonModal>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle class="ion-text-left">
                             <IonRouterLink className="color" href="/certificate">
-                                <IonIcon color="white"  icon={chevronBack} />  Atrás
+                                <IonIcon color="white"  icon={chevronBack} />  Atras
                             </IonRouterLink>
                         </IonTitle>
                     </IonToolbar>
@@ -56,13 +54,6 @@ const QueryProceedings: React.FC=()=>{
                                 <IonCard href="/session">
                                     <IonImg src="assets/img/logo.jpg"/>
                                 </IonCard>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow className="ion-align-items-center">
-                            <IonCol className="ion-text-center" size="12">
-                                <IonButton expand='block' color='warning' onClick={()=>{recuperar_certificado()}}>
-                                    Recuperar certificado
-                                </IonButton>
                             </IonCol>
                         </IonRow>
                         <IonRow className="ion-align-items-center">
@@ -94,7 +85,7 @@ const QueryProceedings: React.FC=()=>{
                                             </IonCol>
                                             <IonCol size="12">
                                                 <IonButton  className="ion-color-primary" onClick={()=>{firstCertficate(item)}}>
-                                                    Certificado automático
+                                                    Renovar
                                                 </IonButton>
                                             </IonCol>
                                         </IonRow>
@@ -113,4 +104,4 @@ const QueryProceedings: React.FC=()=>{
 
     );
 };
-export default QueryProceedings;
+export default QueryProceedingsRenovate;

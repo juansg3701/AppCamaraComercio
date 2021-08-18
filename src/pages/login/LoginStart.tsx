@@ -21,6 +21,7 @@ import {useHistory} from "react-router";
 const LoginStart: React.FC = ()=>{
     const [stateModal,setStateModal] = useState("");
     const [toastMsg, setToast]= useState<string>();
+    const [toastMsg_2, setToast_2]= useState<string>();
     const history= useHistory()
     const openCompleteModal = () => {
         let message="Apreciado usuario, para renovar una matrícula mercantil o pedir un" +
@@ -43,6 +44,7 @@ const LoginStart: React.FC = ()=>{
         const celular_send= celular_search.current?.value as string
         const clave_send = clave_search.current?.value as string
         if(documento_send && correo_send && celular_send && clave_send){
+            setToast("Consultando, por favor espere...");
             let verificacion = confecamaras.autenticarUsuarioRegistrado(documento_send,correo_send,clave_send,celular_send)
             verificacion.then(value => {
                 console.log(value)
@@ -51,13 +53,13 @@ const LoginStart: React.FC = ()=>{
                         history.push('/session')
                         break;
                     case "0003":
-                        setToast("Clave erronea")
+                        setToast_2("Clave erronea")
                         break;
                     case "0001":
-                        setToast("Usuario no registrado o datos erroneos")
+                        setToast_2("Usuario no registrado o datos erroneos")
                         break;
                     default:
-                        setToast("Por favor llene todos los campos correctamente")
+                        setToast_2("Por favor llene todos los campos correctamente")
                         break;
                 }
             })
@@ -72,6 +74,8 @@ const LoginStart: React.FC = ()=>{
             </IonModal>
             <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
                       onDidDismiss={()=>{setToast("")}}/>
+            <IonToast isOpen={!!toastMsg_2} message={toastMsg_2} color="warning" position="middle" duration={3000}
+                      onDidDismiss={()=>{setToast_2("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>

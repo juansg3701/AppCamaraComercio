@@ -9,6 +9,8 @@ import {nombres} from "./nombres";
 import {radicados} from "./radicados";
 import {recibos} from "./recibos";
 import {certificadoConsultaExpedienteMercantil, expedientes, serviciosReportarTransaccion} from "./expedientes";
+import {resultados} from "./resultados";
+import {recuperacionCertificado} from "./recuperacionCertificado";
 //import CryptoJS from 'crypto-js';
 
 
@@ -22,6 +24,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
     const[radicados, setRadicados] = useState<radicados>({estadofinal:"",
     identificacion:"",nombre:"",radicado:"",recibo:"",actoreparto:"",fechaestadofinal:"",fecharadicacion:"",tipotramite:""});
     const [expedientes, setExpedientes] = useState<expedientes[]>([]);
+    const [consultaCertificado, setConsultaCertificado]= useState<recuperacionCertificado>({valor:"",
+    urlPago:"",numerorecuperacion:"",nombre:"",idestado:"",liquidaciondetalle:[],mensajestado:""});
 
 
 
@@ -62,7 +66,7 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log('Success:', response)
+                //console.log('Success:', response)
                 nombres_a=response.renglones;
             });
         setNames(nombres_a)
@@ -667,7 +671,7 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log('Success:', response)
+                //console.log('Success:', response)
                 expendientes_p=response.expedientes;
             });
         for (let i=0; i<expendientes_p.length; i++){
@@ -710,6 +714,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         let estado="";
         let  token_p =  await solicitarToken();
         let nombreusu="";
+
+
         let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/autenticarUsuarioRegistrado";
         const json_send={
             codigoempresa:"35",
@@ -718,15 +724,32 @@ const ConfecamarasContextProvider: React.FC = (props) => {
             identificacionusuario:identificacion,
             emailusuario:correo,
             celularusuario:celular,
-            claveusuario: clave_encriptada,
+            claveusuario:clave_encriptada
         }
+
+
+        /*
+        let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/verificarRegistro";
+        const json_send={
+            codigoempresa:"35",
+            usuariows:"appccs",
+            token:token_p,
+            identificacion:identificacion,
+            email:correo,
+            clave:clave_encriptada
+
+        }
+
+         */
+
+
         await fetch(url, {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(json_send), // data can be `string` or {object}!
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                //console.log('Success:', response)
+                console.log('Success:', response)
                 estado=response.codigoerror;
                 nombreusu=response.nombreusuario;
             });
@@ -736,7 +759,6 @@ const ConfecamarasContextProvider: React.FC = (props) => {
             identificacionusuario:identificacion,
             emailusuario:correo,
             celularusuario:celular,
-            claveusuario: clave_encriptada,
             nombreusuario:nombreusu,
         }
         if(estado=="0000"){
@@ -828,11 +850,12 @@ const ConfecamarasContextProvider: React.FC = (props) => {
 
     const consultarExpedienteMercantil= async (valor: string)=>{
         let estado="";
-        let  token_p = JSON.parse(window.localStorage.getItem("usuario") as string).token;
+        let  token_p = await solicitarToken();
         let expedientes:certificadoConsultaExpedienteMercantil={apellido1:"",apellido2:"",idclase:"",matricula:""
         ,nombre:"",nombre1:"",nombre2:"",tamanoempresa:""};
 
         let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/consultarExpedienteMercantil";
+
         const json_send={
             codigoempresa:"35",
             usuariows:"appccs",
@@ -852,15 +875,19 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         return expedientes;
     }
     async function reportarTransaccion(expediente: expedientes,valor1: number, valor2: number,
-                                       valor3: number,valor4: number, valor5: number, valor6: number): Promise<string>{
+                                       valor3: number,valor4: number, valor5: number, valor6: number): Promise<resultados>{
         const consultaExpediente = await consultarExpedienteMercantil(expediente.identificacion);
         let estado="";
+        let resultados_array:resultados={
+         codigoerror:"",idliquidacion:"",mensajeerror:"",numerorecuperacion:"", descuentoaplicado:""
+        };
         let tipoIdentificacion=expediente.idclase;
         tipoIdentificacion!="1" && tipoIdentificacion!="2"?tipoIdentificacion="2":tipoIdentificacion=tipoIdentificacion;
 
         let celular_cliente= JSON.parse(window.localStorage.getItem("usuario") as string).celularusuario;
-        let  token_p = JSON.parse(window.localStorage.getItem("usuario") as string).token;
+        let  token_p = await solicitarToken();
         let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/reportarTransaccion";
+        let url_liquidacion="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/aplicar1756Liquidacion";
         let email_control=JSON.parse(window.localStorage.getItem("usuario") as string).emailusuario;
         let nombre_control=JSON.parse(window.localStorage.getItem("usuario") as string).nombreusuario;
         let identificacion_control=JSON.parse(window.localStorage.getItem("usuario") as string).identificacionusuario;
@@ -1052,23 +1079,185 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         }
         //console.log(json_send);
 
+        let codigo_error="";
         await fetch(url, {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(json_send), // data can be `string` or {object}!
         }).then(res => res.json())
             .catch(error => console.error('Error:', error))
             .then(response => {
-                console.log('Success:', response.urlparapago)
-                //expedientes=response.codigoerror;
+                //console.log('Success:',response)
+                resultados_array=response;
             });
-        return "a";
+
+        const fecha_actual=new Date();
+        if(resultados_array.codigoerror=="0000" && fecha_actual.getFullYear()==2021){
+            let json_send_liquidacion={
+                codigoempresa:"35",
+                usuariows:"appccs",
+                token:token_p,
+                idliquidacion: resultados_array.idliquidacion
+            };
+
+            await fetch(url_liquidacion,{
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(json_send_liquidacion), // data can be `string` or {object}!
+            }).then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    //console.log('Success:',response)
+                    resultados_array.descuentoaplicado=response.descuentoaplicado;
+                });
+        }
+        return resultados_array;
+        
+        }
+
+        async function consultarCertificadoRecuperacion(recuperacion:string):Promise<string>{
+           const token_p= await solicitarToken();
+
+           let recuperacionCertificado:recuperacionCertificado={idestado:"",nombre:"",numerorecuperacion:""
+           ,urlPago:"",valor:"",liquidaciondetalle:[],mensajestado:""}
+            let estado="";
+            let tipo_documento_final="";
+            let email_control=JSON.parse(window.localStorage.getItem("usuario") as string).emailusuario;
+            let nombre_control=JSON.parse(window.localStorage.getItem("usuario") as string).nombreusuario;
+            let identificacion_control=JSON.parse(window.localStorage.getItem("usuario") as string).identificacionusuario;
+            let celular_control=JSON.parse(window.localStorage.getItem("usuario") as string).celularusuario;
+
+
+            let url="https://siisogamoso.confecamaras.co/librerias/wsRestSII/v1/consultarLiquidacion";
+            const json_send={
+                codigoempresa:"35",
+                usuariows:"appccs",
+                token:token_p,
+                idusuario:"USUPUBXX",
+                identificacioncontrol:identificacion_control,
+                nombrecontrol:nombre_control,
+                emailcontrol:email_control,
+                celularcontrol:celular_control,
+                idliquidacion:"",
+                numerorecuperacion:recuperacion
+
+            }
+            await fetch(url, {
+                method: 'POST', // or 'PUT'
+                body: JSON.stringify(json_send), // data can be `string` or {object}!
+            }).then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    //console.log('Success:', response)
+                    estado=response.codigoerror;
+                    recuperacionCertificado=response
+                });
+            recuperacionCertificado.mensajestado=valores_estado_recuperacion(recuperacionCertificado.idestado);
+            setConsultaCertificado(recuperacionCertificado);
+            return estado;
+        }
+
+        const valores_estado_recuperacion=(numero:string)=>{
+        let mensaje="";
+
+        switch (numero) {
+            case '01':
+                mensaje="Liquidada en proceso"
+            break;
+            case '02':
+                mensaje="Salvada"
+                break;
+            case '03':
+                mensaje="Validada"
+                break;
+            case '04':
+                mensaje="Impresa"
+                break;
+            case '05':
+                mensaje="Para pago en la caja"
+                break;
+            case '06':
+                mensaje="Para pago en la caja"
+                break;
+            case '07':
+                mensaje="Confirmado pago electrónico"
+                break;
+            case '08':
+                mensaje="Rechazado pago electrónico"
+                break;
+            case '09':
+                mensaje="Pagada en la caja"
+                break;
+            case '10':
+                mensaje="Devuelta"
+                break;
+            case '11':
+                mensaje="Enviada al SIREP desde caja SII"
+                break;
+            case '12':
+                mensaje="Reingresado"
+                break;
+            case '13':
+                mensaje="Enviado a digitación"
+                break;
+            case '14':
+                mensaje="Enviado a registro"
+                break;
+            case '15':
+                mensaje="Inscrito"
+                break;
+            case '16':
+                mensaje="Enviado a archivo"
+                break;
+            case '17':
+                mensaje="Archivado"
+                break;
+            case '18':
+                mensaje="Desistimiento declarado"
+                break;
+            case '19':
+                mensaje="Firmado electrónicamente"
+                break;
+            case '20':
+                mensaje="Pagada en bancos"
+                break;
+            case '21':
+                mensaje="Pagada en ATH"
+                break;
+            case '22':
+                mensaje="Pagado PSE/ACH"
+                break;
+            case '25':
+                mensaje="Cargo a Prepago"
+                break;
+            case '33':
+                mensaje="Pendiente de firmado electrónico"
+                break;
+            case '44':
+                mensaje="Firmado en forma manuscrita"
+                break;
+            case '66':
+                mensaje="Pago electrónico solicitado"
+                break;
+            case '77':
+                mensaje="Recibido tramite RUE recibo pendiente"
+                break;
+            case '99':
+                mensaje="Anulada"
+                break;
+
+            default:
+                mensaje="";
+                break;
+        }
+        return mensaje;
     }
+
     const confecamarasContext: ConfecamarasContextModel={
         token,
         names,
         recibos,
         radicados,
         expedientes,
+        consultaCertificado,
         solicitarToken,
         consultarNombre,
         consultarTramite,
@@ -1077,7 +1266,8 @@ const ConfecamarasContextProvider: React.FC = (props) => {
         autenticarUsuarioRegistrado,
         solicitarRegistro,
         restaurarClaveRegistro,
-        reportarTransaccion
+        reportarTransaccion,
+        consultarCertificadoRecuperacion,
     };
     return(
         <ConfecamarasContext.Provider value={confecamarasContext}>

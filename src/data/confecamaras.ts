@@ -3,6 +3,8 @@ import {nombres} from "./nombres";
 import {recibos} from "./recibos";
 import {radicados} from "./radicados";
 import {expedientes} from "./expedientes";
+import {resultados} from "./resultados";
+import {recuperacionCertificado} from "./recuperacionCertificado";
 
 export type typesQuerys = 'radicado' | 'recibo';
 export type  typesProceedings = 'identificacion' | 'matricula' | 'nombre';
@@ -16,6 +18,7 @@ export interface ConfecamarasContextModel {
     recibos: recibos;
     radicados: radicados;
     expedientes: expedientes[];
+    consultaCertificado: recuperacionCertificado,
     solicitarToken:()=>void;
     consultarNombre:(nombre: string)=>Promise<nombres[]>;
     consultarTramite:(tipo: typesQuerys,valor:string)=>Promise<number>;
@@ -30,7 +33,8 @@ export interface ConfecamarasContextModel {
     restaurarClaveRegistro:(documento: string, correo: string)=>Promise<string>
 
     reportarTransaccion:(expediente:expedientes,valor1: number,valor2:number,valor3: number,
-    valor4: number, valor5: number, valor6: number)=>Promise<string>
+    valor4: number, valor5: number, valor6: number)=>Promise<resultados>
+    consultarCertificadoRecuperacion:(recuperacion: string)=>Promise<string>
 }
 const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
         token: "",
@@ -38,6 +42,7 @@ const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
         recibos: <recibos>{},
         radicados: <radicados>{},
         expedientes: [],
+    consultaCertificado: <recuperacionCertificado>{},
         solicitarToken: () => {
         },
         consultarNombre: (nombre) => <Promise<nombres[]>>{},
@@ -53,7 +58,8 @@ const ConfecamarasContext = React.createContext<ConfecamarasContextModel>({
                            correo,celular,fecha_nacimiento,fecha_expedicion)=><Promise<"">>{},
         restaurarClaveRegistro:(documento,correo)=><Promise<"">>{},
         reportarTransaccion:(expediente,valor1,valor2,valor3,
-                             valor4,valor5,valor6)=><Promise<"">>{}
+                             valor4,valor5,valor6)=><Promise<resultados>>{},
+        consultarCertificadoRecuperacion:(recuperacion)=><Promise<"">>{},
 
     }
 );

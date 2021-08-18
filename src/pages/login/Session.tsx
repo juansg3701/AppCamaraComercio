@@ -102,6 +102,7 @@ const Session: React.FC = ()=>{
                             <IonRow></IonRow>
                         </IonCol>
                     <IonRow className="ion-align-items-center">
+                        {/*
                         <IonCol className="ion-text-center" size="12">
                             { window.localStorage.length>0?
                                 <IonRouterLink href="/renovate">
@@ -112,6 +113,21 @@ const Session: React.FC = ()=>{
                                     <img src="assets/img/renovacion.png" height="50" width="50"/>
                                     <br></br>
                                     Renovaciones
+                                </IonRouterLink>
+                            }
+
+                        </IonCol>
+                        */}
+                        <IonCol className="ion-text-center" size="12">
+                            { window.localStorage.length>0?
+                                <IonRouterLink href="/rcertificate">
+                                    <img src="assets/img/renovacion.png" height="50" width="50"/>
+                                    <br></br>
+                                    Recuperar certificado
+                                </IonRouterLink>: <IonRouterLink >
+                                    <img src="assets/img/renovacion.png" height="50" width="50"/>
+                                    <br></br>
+                                    Recuperar certificado
                                 </IonRouterLink>
                             }
 

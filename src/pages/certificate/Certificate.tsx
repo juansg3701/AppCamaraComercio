@@ -16,7 +16,6 @@ import  '../Home.css';
 import { chevronBack, informationCircle } from 'ionicons/icons';
 import ModalInformation from "../../components/ModalInformation";
 import ConfecamarasContext, {typesProceedings, typesQuerys} from "../../data/confecamaras";
-import itemContext from "../../data/capacitation";
 import {useHistory} from "react-router";
 
 const Certificate: React.FC = ()=>{
@@ -25,19 +24,21 @@ const Certificate: React.FC = ()=>{
     const tipo_search= useRef<HTMLIonSegmentElement>(null);
     const valor_search= useRef<HTMLIonInputElement>(null);
     const [toastMsg, setToast] = useState<string>();
+    const [toastMsg_2, setToast_2] = useState<string>();
     const history= useHistory()
 
     const consultarTramite= async ()=>{
         const tipo_send= tipo_search.current?.value as typesProceedings;
         const valor_send= valor_search.current?.value as string;
         if(tipo_send && valor_send){
+            setToast("Consultando, por favor espere...");
               let noExpedientes= confecamaras.consultarExpediente(tipo_send, valor_send);
               noExpedientes.then(value => {
                   if(value>0){
-                      //history.replace("/queryproceedings")
-                      history.push("/queryproceedings")
+                      history.replace("/queryproceedings")
+                      //history.push("/queryproceedings")
                   }else{
-                      setToast("No hay expedientes con estos datos")
+                      setToast_2("No hay expedientes con estos datos")
                   }
               })
 
@@ -65,13 +66,16 @@ const Certificate: React.FC = ()=>{
             <IonModal isOpen={stateModal!=""}>
                 <ModalInformation message={stateModal} dismissModal={closeModal}></ModalInformation>
             </IonModal>
-            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000} onDidDismiss={()=>{setToast("")}}/>
+            <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
+                      onDidDismiss={()=>{setToast("")}}/>
+            <IonToast isOpen={!!toastMsg_2} message={toastMsg_2} color="warning" position="middle" duration={3000}
+                      onDidDismiss={()=>{setToast_2("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle class="ion-text-left">
                             <IonRouterLink className="color" href="/session">
-                                <IonIcon color="white"  icon={chevronBack} />  Atras
+                                <IonIcon color="white"  icon={chevronBack} />  Atrás
                             </IonRouterLink>
                         </IonTitle>
                     </IonToolbar>

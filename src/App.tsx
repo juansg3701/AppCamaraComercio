@@ -40,6 +40,9 @@ import Session from "./pages/login/Session";
 import SignupCCS from "./pages/login/SignupCCS";
 import MessageSuccess from "./pages/login/MessageSuccess";
 import ForgetPassword from "./pages/login/ForgetPassword";
+import QueryProceedingsRenovate from "./pages/Renovate/QueryProceedingsRenovate";
+import Rcertificate from "./pages/Rcertificate/Rcertificate";
+import QueryRcertificate from "./pages/Rcertificate/QueryRcertificate";
 const App: React.FC = () => (
   <IonApp>
     <IonContent>
@@ -94,10 +97,18 @@ const App: React.FC = () => (
           <Route exact path='/messagesuccess'>
             <MessageSuccess/>
           </Route>
+            <Route exact path='/recuperatecertificate'>
+              <QueryRcertificate/>
+            </Route>
+            <Route exact path='/rcertificate'>
+              <Rcertificate/>
+            </Route>
             <Route exact path='/forgetpassword'>
               <ForgetPassword/>
             </Route>
-
+            <Route exact path='/queryproceedingsrenovate'>
+              <QueryProceedingsRenovate/>
+            </Route>
 
             <Route exact path='/resultsreceipt'>
               <ResultsReceipt/>

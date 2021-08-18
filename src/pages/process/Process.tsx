@@ -14,9 +14,14 @@ import {
 } from "@ionic/react";
 import  '../Home.css';
 import { chevronBack } from 'ionicons/icons';
+import {useHistory} from "react-router";
 
 const Process: React.FC = ()=>{
-
+    const history = useHistory()
+    const cerrarsesion=()=>{
+        window.localStorage.clear()
+        history.replace('/login')
+    }
 
 
     return(
@@ -69,15 +74,28 @@ const Process: React.FC = ()=>{
                     <IonCol>
                         <IonRow></IonRow>
                     </IonCol>
+
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center" size="12">
-                            <IonRouterLink href="/login">
+                            <a onClick={()=>{cerrarsesion()}}>
                                 <img src="assets/img/certificados.png" height="50" width="50"/>
                                 <br></br>
-                                Certificados - Renovaciones
+                                Certificados
+                            </a>
+                        </IonCol>
+                    </IonRow>
+
+                    {/*
+                    <IonRow className="ion-align-items-center">
+                        <IonCol className="ion-text-center" size="12">
+                            <IonRouterLink href="/certificate">
+                                <img src="assets/img/certificados.png" height="50" width="50"/>
+                                <br></br>
+                                Certificados
                             </IonRouterLink>
                         </IonCol>
                     </IonRow>
+                    */}
                 </IonGrid>
             </IonContent>
         </IonPage>

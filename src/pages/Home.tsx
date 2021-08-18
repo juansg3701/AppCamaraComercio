@@ -2,30 +2,43 @@ import {
     IonButton,
     IonCard,
     IonCol,
-    IonContent, IonFooter,
+    IonContent, IonFab, IonFabButton, IonFooter,
     IonGrid,
-    IonHeader, IonImg,
-    IonLabel,
+    IonHeader, IonIcon, IonImg,
+    IonLabel, IonModal,
     IonPage, IonRouterLink,
     IonRow,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
 import  './Home.css';
-import {card} from 'ionicons/icons';
-import React, {useContext} from "react";
+import {card, informationCircle} from 'ionicons/icons';
+import React, {useContext, useState} from "react";
 import itemContext from "../data/capacitation";
 import wordpressApi from "../api/wordpressApi";
 import ConfecamarasContext from "../data/confecamaras";
+import ModalAbout from "../components/ModalAbout";
+import ModalInformation from "../components/ModalInformation";
 
 const Home: React.FC = () => {
-
+    const [stateModal,setStateModal] = useState("");
     const itemsCtxt = useContext(itemContext);
     const itemsCtxt2 = useContext(ConfecamarasContext);
 
+    const openCompleteModal = () => {
+        let message="2021";
+        setStateModal(message);
+    };
+    const closeModal = () => {
+        setStateModal("");
+    };
 // @ts-ignore
 // @ts-ignore
 return (
+    <React.Fragment>
+        <IonModal isOpen={stateModal!=""}>
+            <ModalAbout message={stateModal} dismissModal={closeModal}></ModalAbout>
+        </IonModal>
 <IonPage>
 <IonHeader>
     <IonToolbar>
@@ -35,6 +48,11 @@ return (
     </IonToolbar>
 </IonHeader>
 <IonContent fullscreen>
+    <IonFab vertical="bottom" horizontal="end" slot="fixed">
+        <IonFabButton onClick={()=>{openCompleteModal()}}>
+            <IonIcon icon={informationCircle} />
+        </IonFabButton>
+    </IonFab>
 <IonGrid>
   <IonRow className="ion-align-items-center">
       <IonCol size="12">
@@ -81,12 +99,32 @@ return (
       <IonRow>
       </IonRow>
   </IonCol>
+    <IonRow>
+        <IonCol size="12" className="ion-text-center">
+            <IonLabel className="titulos">
+                Capacitaciones
+            </IonLabel>
+        </IonCol>
+        <IonCol size="12">
+        </IonCol>
+        <IonCol size="12" className="ion-text-center">
+            <IonCard>
+                <IonRouterLink href="https://campusvirtualccs.org/">
+                    <IonImg src="assets/img/campus.jpg"/>
+                </IonRouterLink>
+            </IonCard>
+        </IonCol>
+    </IonRow>
+    <IonCol>
+        <IonRow>
+        </IonRow>
+    </IonCol>
   <IonRow>
       <IonCol size="12">
       </IonCol>
       <IonCol size="12" className="ion-text-center">
           <IonLabel className="titulos">
-              Noticias - Capacitaciones
+              Noticias
           </IonLabel>
       </IonCol>
       {/*  -   {posts.length} -*/}
@@ -120,6 +158,7 @@ return (
 <IonFooter>
 </IonFooter>
 </IonPage>
+    </React.Fragment>
 );
 };
 

@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "AppCamaraComercio",
+  "appName": "Cámara Sogamoso",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

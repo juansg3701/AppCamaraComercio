@@ -105,14 +105,14 @@ const Information: React.FC = ()=>{
                       <IonRouterLink href="https://camarasogamoso.org/otros-programas/">
                           <img src="assets/img/sitios.png" height="50" width="50"/>
                           <br></br>
-                          Sitios de interes
+                          Sitios de interés
                       </IonRouterLink>
                   </IonCol>
                   <IonCol className="ion-text-center" size="6">
                       <IonRouterLink href="https://camarasogamoso.org/datos-de-contacto/">
                           <img src="assets/img/contacto.png" height="50" width="50"/>
                           <br></br>
-                          Contactenos
+                          Contáctenos
                       </IonRouterLink>
                   </IonCol>
               </IonRow>

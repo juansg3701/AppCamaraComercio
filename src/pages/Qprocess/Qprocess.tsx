@@ -25,12 +25,14 @@ const Qprocess: React.FC = ()=>{
     const tipo_search = useRef<HTMLIonSegmentElement>(null);
     const valor_search = useRef<HTMLIonInputElement>(null);
     const [toastMsg, setToast]= useState<string>();
+    const [toastMsg_2, setToast_2]= useState<string>();
 
     const consultarTramite= async ()=>{
         const tipo_send= tipo_search.current?.value as typesQuerys;
         const valor_send= valor_search.current?.value as string;
 
         if(tipo_send && valor_send){
+            setToast("Consultando, por favor espere...");
             let noResultados= confecamaras.consultarTramite(tipo_send,valor_send);
 
             noResultados.then(value=>{
@@ -46,7 +48,7 @@ const Qprocess: React.FC = ()=>{
                             break;
                     }
                 }else{
-                    setToast("No hay resultados con estos datos");
+                    setToast_2("No hay resultados con estos datos");
                 }
             })
 
@@ -74,6 +76,8 @@ const Qprocess: React.FC = ()=>{
             </IonModal>
             <IonToast isOpen={!!toastMsg} message={toastMsg} duration={3000}
                       onDidDismiss={()=>{setToast("")}}/>
+            <IonToast isOpen={!!toastMsg_2} message={toastMsg_2} color="warning" position="middle" duration={3000}
+                      onDidDismiss={()=>{setToast_2("")}}/>
             <IonPage>
                 <IonHeader>
                     <IonToolbar>
